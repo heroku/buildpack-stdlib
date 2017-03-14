@@ -33,3 +33,23 @@ set-default-env() {
 un-set-env() {
   echo "unset $1" >> $PROFILE_PATH
 }
+
+# Usage: $ sub-env command
+# Runs a subshell with user-provided config
+# NOTICE: Expects a WHITELIST & BLACKLIST to be set! Examples:
+#    WHITELIST=${2:-''}
+#    BLACKLIST=${3:-'^(GIT_DIR|PYTHONHOME|LD_LIBRARY_PATH|LIBRARY_PATH|PATH)$'}
+sub-env() {
+  (
+    if [ -d "$ENV_DIR" ]; then
+      for e in $(ls $ENV_DIR); do
+        echo "$e" | grep -E "$WHITELIST" | grep -qvE "$BLACKLIST" &&
+        export "$e=$(cat $ENV_DIR/$e)"
+        :
+      done
+    fi
+
+    $1
+
+  )
+}
