@@ -3,8 +3,6 @@ puts-line() {
   echo "$@"
 }
 
-/bin/echo -e "\e[1;31mThis is red text\e[0m"
-
 # Buildpack Steps.
 puts-step() {
   echo -e "\e[1m\e[36m=== $@\e[0m"
