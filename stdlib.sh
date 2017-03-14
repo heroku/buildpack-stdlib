@@ -1,16 +1,21 @@
 # Buildpack Indented line.
 puts-line() {
-  echo "       $@"
+  echo "$@"
 }
 
 # Buildpack Steps.
 puts-step() {
-  echo "-----> $@"
+  echo "\e[1m\e[36m=== $@\e[0m"
 }
 
-# Buildpack Warnings.
+# Buildpack Error.
+puts-error() {
+  echo "\e[1m\e[31m=!= $@\e[0m"
+}
+
+# Buildpack Warning.
 puts-warn() {
-  echo " !     $@"
+  echo "\e[1m\e[33m=!= $@\e[0m"
 }
 
 
