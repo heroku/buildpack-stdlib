@@ -5,17 +5,17 @@ puts-line() {
 
 # Buildpack Steps.
 puts-step() {
-  echo "\e[1m\e[36m=== $@\e[0m"
+  echo -e "\e[1m\e[36m=== $@\e[0m"
 }
 
 # Buildpack Error.
 puts-error() {
-  echo "\e[1m\e[31m=!= $@\e[0m"
+  echo -e "\e[1m\e[31m=!= $@\e[0m"
 }
 
 # Buildpack Warning.
 puts-warn() {
-  echo "\e[1m\e[33m=!= $@\e[0m"
+  echo -e "\e[1m\e[33m=!= $@\e[0m"
 }
 
 
