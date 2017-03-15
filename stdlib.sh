@@ -109,7 +109,7 @@ mcount() {
     echo “count#${k}=${v}” >> ${BUILDPACK_LOG_FILE}
 }
 
-# Logs a measure for a specific built step. 
+# Logs a measure for a specific build step. 
 # Usage: $ mmeasure "tool.installed_dependencies" 42
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#distributions-measure
 mmeasure() {
