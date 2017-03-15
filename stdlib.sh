@@ -1,3 +1,6 @@
+# Standard Output
+# ---------------
+
 # Buildpack Indented line.
 puts-line() {
   echo "$@"
@@ -18,6 +21,9 @@ puts-warn() {
   echo -e "\e[1m\e[33m=!= $@\e[0m"
 }
 
+
+# Buildpack Utilities
+# -------------------
 
 # Usage: $ set-env key value
 # NOTICE: Expects PROFILE_PATH & EXPORT_PATH to be set!
