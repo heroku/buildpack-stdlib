@@ -33,10 +33,10 @@ Buildpack utilities:
 Metrics:
 
 - `nowms`, which returns the current time in millesconds. 
-- `mcount-exit`, which logs an exit event and exists 1. 
 - `mtime`, which measures time elapsed for a specific build step.
 - `mcount`, which logs a count for a specific build step. 
 - `mmeasure`, which logs a measure for specific build step. 
 - `munique`, which logs a unique measurement build step. 
+- `mcount-exit`, which logs an exit event and exists 1. 
 
 ✨🍰✨
