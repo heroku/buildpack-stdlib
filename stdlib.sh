@@ -110,7 +110,7 @@ measure() {
 }
 
 # Logs a unuique measurement build step. 
-# Usage: $ unique "version.count" 2.7.13
+# Usage: $ unique "version.unique" 2.7.13
 unique() {
     local k="${BPLOG_PREFIX}.${1}"
     local v=”${2}”
