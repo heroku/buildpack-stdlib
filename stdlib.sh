@@ -66,7 +66,7 @@ sub-env() {
 # Example: BUILDPACK_LOG_FILE=${BUILDPACK_LOG_FILE:-/dev/null}; BPLOG_PREFIX="buildpack.go"
 
 # Returns now, in milleseconds. Useful for logging. 
-# Example: let start=$(nowms); mtime "glide.install.time" "${start}"
+# Example: $ let start=$(nowms); sleep 30; mtime "glide.install.time" "${start}"
 nowms() {
     date +%s%3N
 }
@@ -97,7 +97,7 @@ mtime() {
 # Logs a count for a specific built step. 
 # Usage: $ count "tool.govendor"
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#counting-count
-count() {
+mcount() {
     local k=”${BPLOG_PREFIX}.${1}”
     local v=”${2:1}”
     echo “count#${k}=${v}” >> ${BUILDPACK_LOG_FILE}
@@ -106,7 +106,7 @@ count() {
 # Logs a measure for a specific built step. 
 # Usage: $ measure "tool.installed_dependencies" 42
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#distributions-measure
-measure() {
+mmeasure() {
     local k=”${BPLOG_PREFIX}.${1}”
     local v=”${2}”
     echo “measure#${k}=${v}” >> ${BUILDPACK_LOG_FILE}
@@ -115,7 +115,7 @@ measure() {
 # Logs a unuique measurement build step. 
 # Usage: $ unique "versions.count" 2.7.13
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#uniques-unique
-unique() {
+munique() {
     local k="${BPLOG_PREFIX}.${1}"
     local v=”${2}”
     echo "unique#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
