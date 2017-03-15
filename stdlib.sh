@@ -72,8 +72,8 @@ nowms() {
 }
 
 # Measures when an exit path to the buildpack is reached, given a name, then exits 1. 
-# Usage: $ countExit "binExists"
-mcountExit() {
+# Usage: $ mcount-exi "binExists"
+mcount-exit() {
     mcount "error.${1}"
     exit 1
 }
@@ -95,7 +95,7 @@ mtime() {
 }
 
 # Logs a count for a specific built step. 
-# Usage: $ count "tool.govendor"
+# Usage: $ mcount "tool.govendor"
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#counting-count
 mcount() {
     local k=”${BPLOG_PREFIX}.${1}”
@@ -104,7 +104,7 @@ mcount() {
 }
 
 # Logs a measure for a specific built step. 
-# Usage: $ measure "tool.installed_dependencies" 42
+# Usage: $ mmeasure "tool.installed_dependencies" 42
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#distributions-measure
 mmeasure() {
     local k=”${BPLOG_PREFIX}.${1}”
@@ -113,7 +113,7 @@ mmeasure() {
 }
 
 # Logs a unuique measurement build step. 
-# Usage: $ unique "versions.count" 2.7.13
+# Usage: $ munique "versions.count" 2.7.13
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#uniques-unique
 munique() {
     local k="${BPLOG_PREFIX}.${1}"
