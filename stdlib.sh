@@ -77,13 +77,6 @@ nowms() {
     date +%s%3N
 }
 
-# Measures when an exit path to the buildpack is reached, given a name, then exits 1. 
-# Usage: $ mcount-exi "binExists"
-mcount-exit() {
-    mcount "error.${1}"
-    exit 1
-}
-
 # Log arbitrary data to the logfile (e.g. a packaging file). 
 # Usage: $ bplog "$(<${vendorJSON})
 bplog() {
@@ -125,4 +118,11 @@ munique() {
     local k="${BPLOG_PREFIX}.${1}"
     local v=”${2}”
     echo "unique#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
+}
+
+# Measures when an exit path to the buildpack is reached, given a name, then exits 1. 
+# Usage: $ mcount-exi "binExists"
+mcount-exit() {
+    mcount "error.${1}"
+    exit 1
 }
