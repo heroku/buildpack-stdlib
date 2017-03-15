@@ -1,7 +1,6 @@
-# buildpack-stdlib
+# Buildpack Standard Library
 
-A standard library for Heroku buildpacks.
-
+This repo contains a standard library for use within Heroku buildpacks. It allows for unified output methods, some common buildpack utilities, and facilitates metrics logging. 
 
 ## Usage
 
