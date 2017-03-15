@@ -11,6 +11,8 @@ In your buildpack, run the following command (towards the top):
 
 **Note:** this URL will change to S3 once a bucket is provisioned. 
 
+------------------------
+
  This will make the following functions available: 
  
  Standard output:
@@ -35,3 +37,5 @@ Metrics:
 - `mcount`, which logs a count for a specific build step. 
 - `mmeasure`, which logs a measure for specific build step. 
 - `munique`, which logs a unique measurement build step. 
+
+✨🍰✨
