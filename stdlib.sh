@@ -1,11 +1,6 @@
 # Standard Output
 # ---------------
 
-# Buildpack Indented line.
-puts-line() {
-  echo "$@"
-}
-
 # Buildpack Steps.
 puts-step() {
   echo -e "\e[1m\e[36m=== $@\e[0m"
