@@ -73,8 +73,8 @@ nowms() {
 
 # Measures when an exit path to the buildpack is reached, given a name, then exits 1. 
 # Usage: $ countExit "binExists"
-countExit() {
-    count "error.${1}"
+mcountExit() {
+    mcount "error.${1}"
     exit 1
 }
 
