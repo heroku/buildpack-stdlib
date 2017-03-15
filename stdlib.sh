@@ -86,6 +86,7 @@ bplog() {
 
 # Measures time elapsed for a specific build step. 
 # Usage: $ let start=$(nowms); mtime "glide.install.time" "${start}"
+# https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#distributions-measure
 mtime() {
     local key="${BPLOG_PREFIX}.${1}"
     local start="${2}"
@@ -95,6 +96,7 @@ mtime() {
 
 # Logs a count for a specific built step. 
 # Usage: $ count "tool.govendor"
+# https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#counting-count
 count() {
     local k=”${BPLOG_PREFIX}.${1}”
     local v=”${2:1}”
@@ -103,6 +105,7 @@ count() {
 
 # Logs a measure for a specific built step. 
 # Usage: $ measure "tool.installed_dependencies" 42
+# https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#distributions-measure
 measure() {
     local k=”${BPLOG_PREFIX}.${1}”
     local v=”${2}”
@@ -111,6 +114,7 @@ measure() {
 
 # Logs a unuique measurement build step. 
 # Usage: $ unique "versions.count" 2.7.13
+# https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#uniques-unique
 unique() {
     local k="${BPLOG_PREFIX}.${1}"
     local v=”${2}”
