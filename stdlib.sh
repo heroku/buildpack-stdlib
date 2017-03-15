@@ -62,6 +62,9 @@ sub-env() {
 # Logging
 # -------
 
+# Notice: These functions expect BPLOG_PREFIX to be defined, or pointing to /dev/null if not provided by the buildpack.
+# Example: BUILDPACK_LOG_FILE=${BUILDPACK_LOG_FILE:-/dev/null}; BPLOG_PREFIX="buildpack.go"
+
 # Returns now, in milleseconds. Useful for logging. 
 # Example: let start=$(nowms); mtime "glide.install.time" "${start}"
 nowms() {
@@ -107,7 +110,7 @@ measure() {
 }
 
 # Logs a unuique measurement build step. 
-# Usage: $ measure "build_id" $BUILD_ID
+# Usage: $ measure "python_version" 2.7.13
 unique() {
     local k="${BPLOG_PREFIX}.${1}"
     local v=”${2}”
