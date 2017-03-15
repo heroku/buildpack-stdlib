@@ -110,7 +110,7 @@ measure() {
 }
 
 # Logs a unuique measurement build step. 
-# Usage: $ measure "python_version" 2.7.13
+# Usage: $ unique "python_version" 2.7.13
 unique() {
     local k="${BPLOG_PREFIX}.${1}"
     local v=”${2}”
