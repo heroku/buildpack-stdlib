@@ -62,7 +62,7 @@ sub-env() {
 # Logging
 # -------
 
-# Notice: These functions expect BPLOG_PREFIX to be defined, or pointing to /dev/null if not provided by the buildpack.
+# Notice: These functions expect BPLOG_PREFIX and BUILDPACK_LOG_FILE to be defined (BUILDPACK_LOG_FILE can point to /dev/null if not provided by the buildpack).
 # Example: BUILDPACK_LOG_FILE=${BUILDPACK_LOG_FILE:-/dev/null}; BPLOG_PREFIX="buildpack.go"
 
 # Returns now, in milleseconds. Useful for logging. 
