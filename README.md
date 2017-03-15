@@ -1,6 +1,8 @@
 # Buildpack Standard Library
 
-This repo contains a standard library for use within Heroku buildpacks. It allows for unified output methods, some common buildpack utilities, and facilitates metrics logging. 
+This repo contains a standard library for use within Heroku buildpacks. 
+
+It allows for unified output methods, some common buildpack utilities, and facilitates metrics logging. 
 
 ## Usage
 
