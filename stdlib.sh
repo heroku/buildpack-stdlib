@@ -23,6 +23,7 @@ puts-warn() {
 # Usage: $ set-env key value
 # NOTICE: Expects PROFILE_PATH & EXPORT_PATH to be set!
 set-env() {
+  # TODO: automatically create profile path directory if it doesn't exist. 
   echo "export $1=$2" >> $PROFILE_PATH
   echo "export $1=$2" >> $EXPORT_PATH
 }
