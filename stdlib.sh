@@ -42,7 +42,7 @@ un-set-env() {
 }
 
 # Usage: $ sub-env command
-# Runs a subshell with user-provided config
+# Runs a subshell with user-provided config.
 # NOTICE: Expects a WHITELIST & BLACKLIST to be set! Examples:
 #    WHITELIST=${2:-''}
 #    BLACKLIST=${3:-'^(GIT_DIR|PYTHONHOME|LD_LIBRARY_PATH|LIBRARY_PATH|PATH)$'}
