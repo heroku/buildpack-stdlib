@@ -36,5 +36,6 @@ In your buildpack, run the following command (towards the top):
 - `munique`, which logs a unique measurement build step. 
 - `mcount-exit`, which logs an exit event and exits 1. 
 
-*Please see the contents of [stdlib.sh](https://github.com/heroku/buildpack-stdlib/blob/master/stdlib.sh) for more usage details (including required environment variables).
+*Please see the contents of [stdlib.sh](https://github.com/heroku/buildpack-stdlib/blob/master/stdlib.sh) for more usage details (including required environment variables).*
+
 ✨🍰✨
