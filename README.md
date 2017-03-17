@@ -10,8 +10,6 @@ In your buildpack, run the following command (towards the top):
 
     $ curl -s http://lang-common.s3.amazonaws.com/buildpack-stdlib/latest/stdlib.sh > /tmp/stdlib.sh && source /tmp/stdlib.sh
 
-**Note:** this URL will change to S3 once a bucket is provisioned. 
-
 ------------------------
 
  This will make the following functions available: 
