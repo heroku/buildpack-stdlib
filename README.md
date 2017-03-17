@@ -34,6 +34,6 @@ Metrics:
 - `mcount`, which logs a count for a specific build step. 
 - `mmeasure`, which logs a measure for specific build step. 
 - `munique`, which logs a unique measurement build step. 
-- `mcount-exit`, which logs an exit event and exists 1. 
+- `mcount-exit`, which logs an exit event and exits 1. 
 
 ✨🍰✨
