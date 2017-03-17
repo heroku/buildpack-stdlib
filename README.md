@@ -14,20 +14,20 @@ In your buildpack, run the following command (towards the top):
 
  This will make the following functions available: 
  
- Standard output:
+**Standard output**:
  
 - `puts-step`, which outputs a build step in a standardized format.
 - `puts-error`, which outputs a build error in a standarized format. 
 - `puts-warn`, which outputs a build warning in a standardized format. 
 
-Buildpack utilities:
+**Buildpack utilities**:
 
 - `set-env`, which writes an environment variable to a profile and export script (for multi-buildpack support). 
 - `set-default-env`, which writes a default environment variable to a profile and export script (for multi-buildpack support). 
 - `un-set-env`, which unsets a user-provided environment variable via profile script. 
 - `sub-env`, which launches a subshell with user-provided config.
 
-Metrics:
+**Metrics**:
 
 - `nowms`, which returns the current time in millesconds. 
 - `mtime`, which measures time elapsed for a specific build step.
@@ -36,4 +36,5 @@ Metrics:
 - `munique`, which logs a unique measurement build step. 
 - `mcount-exit`, which logs an exit event and exits 1. 
 
+*Please see the contents of [stdlib.sh](https://github.com/heroku/buildpack-stdlib/blob/master/stdlib.sh) for more usage details (including required environment variables).
 ✨🍰✨
