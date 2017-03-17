@@ -8,7 +8,7 @@ It allows for unified output methods, some common buildpack utilities, and facil
 
 In your buildpack, run the following command (towards the top):
 
-    $ curl -s http://lang-common.s3.amazonaws.com/buildpack-stdlib/latest/stdlib.sh > /tmp/stdlib.sh && source /tmp/stdlib.sh
+    $ curl -s https://lang-common.s3.amazonaws.com/buildpack-stdlib/latest/stdlib.sh > /tmp/stdlib.sh && source /tmp/stdlib.sh
 
 ------------------------
 
