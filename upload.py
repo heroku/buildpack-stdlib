@@ -12,14 +12,16 @@ Options:
 
 """
 
+import sys
+
 import bucketstore
 from docopt import docopt
 
 bucket = bucketstore.get('lang-common', create=False)
+prefix = 'buildpack-stdlib/'
+
 
 def do_list():
-
-    prefix = 'buildpack-stdlib/'
 
     for entry in bucket.list():
         if entry.startswith(prefix):
@@ -29,13 +31,39 @@ def do_list():
                     if entry:
                         print entry
 
+def upload(version):
+    key = '{0}{1}/stdlib.sh'.format(prefix, version)
+
+    with open('stdlib.sh', 'rb') as f:
+        bucket[key] = f.read()
+
+    print key
+
+
+def do_upload(version, latest=False):
+    print 'Uploading \'stdlib.sh\' to Amazon S3 bucket {0!r}...'.format(bucket.name)
+
+    upload(version)
+
+    if latest:
+        upload('latest')
+
+    print 'Complete!'
+
 
 def main():
     arguments = docopt(__doc__, version='Naval Fate 2.0')
 
     if arguments['--list']:
         do_list()
-        exit()
+        sys.exit(0)
+
+    if arguments['<v>']:
+        do_upload(version=arguments['<v>'], latest=arguments['--latest'])
+
+    else:
+        'A version (e.g. \'v1\') must be provided!'
+        sys.exit(1)
 
 if __name__ == '__main__':
     main()
