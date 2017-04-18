@@ -47,11 +47,14 @@ def upload(version):
 def do_upload(version, latest=False):
     print 'Uploading \'stdlib.sh\' to Amazon S3 bucket {0!r}...'.format(bucket.name)
 
+    # Actually upload the version specified.
     upload(version)
 
+    # Actually update latest to this version.
     if latest:
         upload('latest')
 
+    # Report a clean installation.
     print 'Complete!'
 
 
