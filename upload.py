@@ -12,6 +12,10 @@ Options:
 
 """
 
+# This script expects the AWS_ACCESS_KEY_ID and
+# AWS_SECRET_ACCESS_KEY environment variables to be set,
+# as well as all dependencies to be installed (pipenv install).
+
 import sys
 
 import bucketstore
