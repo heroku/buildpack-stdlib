@@ -41,6 +41,9 @@ def upload(version):
     with open('stdlib.sh', 'rb') as f:
         bucket[key] = f.read()
 
+    # Make key public.
+    bucket.key(key).make_public()
+
     print key
 
 
