@@ -12,7 +12,7 @@ In your buildpack, run the following command (towards the top):
     
 Or, if you want to pin to a specific release:
 
-$ curl -s https://lang-common.s3.amazonaws.com/buildpack-stdlib/v1/stdlib.sh > /tmp/stdlib.sh && source /tmp/stdlib.sh
+    $ curl -s https://lang-common.s3.amazonaws.com/buildpack-stdlib/v1/stdlib.sh > /tmp/stdlib.sh && source /tmp/stdlib.sh
 
 ------------------------
 
