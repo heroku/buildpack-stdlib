@@ -9,6 +9,10 @@ It allows for unified output methods, some common buildpack utilities, and facil
 In your buildpack, run the following command (towards the top):
 
     $ curl -s https://lang-common.s3.amazonaws.com/buildpack-stdlib/latest/stdlib.sh > /tmp/stdlib.sh && source /tmp/stdlib.sh
+    
+Or, if you want to pin to a specific release:
+
+$ curl -s https://lang-common.s3.amazonaws.com/buildpack-stdlib/v1/stdlib.sh > /tmp/stdlib.sh && source /tmp/stdlib.sh
 
 ------------------------
 
