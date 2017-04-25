@@ -93,18 +93,18 @@ mtime() {
 # Usage: $ mcount "tool.govendor"
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#counting-count
 mcount() {
-    local k=”${BPLOG_PREFIX}.${1}”
-    local v=”${2:-1}”
-    echo “count#${k}=${v}” >> ${BUILDPACK_LOG_FILE}
+    local k="${BPLOG_PREFIX}.${1}"
+    local v="${2:-1}"
+    echo "count#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
 }
 
 # Logs a measure for a specific build step.
 # Usage: $ mmeasure "tool.installed_dependencies" 42
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#distributions-measure
 mmeasure() {
-    local k=”${BPLOG_PREFIX}.${1}”
-    local v=”${2}”
-    echo “measure#${k}=${v}” >> ${BUILDPACK_LOG_FILE}
+    local k="${BPLOG_PREFIX}.${1}"
+    local v="${2}"
+    echo "measure#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
 }
 
 # Logs a unuique measurement build step.
@@ -112,7 +112,7 @@ mmeasure() {
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#uniques-unique
 munique() {
     local k="${BPLOG_PREFIX}.${1}"
-    local v=”${2}”
+    local v="${2}"
     echo "unique#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
 }
 
