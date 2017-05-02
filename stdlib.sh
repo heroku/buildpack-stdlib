@@ -43,7 +43,7 @@ un-set-env() {
 
 # Usage: $ export-env pattern
 # Outputs a regex of default blacklist env vars.
-env-blacklist() {
+_env-blacklist() {
   local regex=${1:-''}
   if [ -n "$regex" ]; then
     regex="|$regex"
@@ -54,10 +54,11 @@ env-blacklist() {
 # Usage: $ export-env command
 # Exports the environment variables defined in the given directory.
 # NOTICE: Expects a ENV_DIR, WHITELIST & BLACKLIST to be set!
-export-env() {
+# TODO: Update ^ or change behavior below to reflect.
+_export-env() {
   local env_dir=${1:-$ENV_DIR}
   local whitelist=${2:-''}
-  local blacklist="$(env-blacklist $3)"
+  local blacklist="$(_env-blacklist $3)"
   if [ -d "$env_dir" ]; then
     for e in $(ls $env_dir); do
       echo "$e" | grep -E "$whitelist" | grep -qvE "$blacklist" &&
@@ -74,7 +75,7 @@ export-env() {
 #    BLACKLIST=${3:-'^(GIT_DIR|PYTHONHOME|LD_LIBRARY_PATH|LIBRARY_PATH|PATH)$'}
 sub-env() {
   (
-    export-env $ENV_DIR $WHITELIST $BLACKLIST
+    _export-env $ENV_DIR $WHITELIST $BLACKLIST
 
     $1
   )
