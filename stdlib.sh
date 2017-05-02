@@ -41,7 +41,7 @@ un-set-env() {
   echo "unset $1" >> $PROFILE_PATH
 }
 
-# Usage: $ export-env pattern
+# Usage: $ _env-blacklist pattern
 # Outputs a regex of default blacklist env vars.
 _env-blacklist() {
   local regex=${1:-''}
@@ -51,10 +51,8 @@ _env-blacklist() {
   echo "^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH$regex)$"
 }
 
-# Usage: $ export-env command
+# Usage: $ _export-env ENV_DIR WHITELIST BLACKLIST
 # Exports the environment variables defined in the given directory.
-# NOTICE: Expects a ENV_DIR, WHITELIST & BLACKLIST to be set!
-# TODO: Update ^ or change behavior below to reflect.
 _export-env() {
   local env_dir=${1:-$ENV_DIR}
   local whitelist=${2:-''}
