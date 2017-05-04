@@ -43,6 +43,7 @@ source /dev/stdin <<< "$(curl -s --retry 3 https://lang-common.s3.amazonaws.com/
 - `set-default-env`, which writes a default environment variable to a profile and export script (for multi-buildpack support).
 - `un-set-env`, which unsets a user-provided environment variable via profile script.
 - `sub-env`, which launches a subshell with user-provided config.
+- `export-env`, which exports user-provided config into the current shell.
 
 
 *Please see the contents of [stdlib.sh](https://github.com/heroku/buildpack-stdlib/blob/master/stdlib.sh) for more usage details (including required environment variables).*
