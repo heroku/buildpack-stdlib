@@ -59,3 +59,4 @@ source /dev/stdin <<< "$(curl -s --retry 3 https://lang-common.s3.amazonaws.com/
 - `$ pipenv install`
 - `$ pipenv run python upload.py v42 --latest`
 
+Make sure you have `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` set.
