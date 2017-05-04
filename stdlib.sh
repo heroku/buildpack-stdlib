@@ -51,9 +51,9 @@ _env-blacklist() {
   echo "^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH$regex)$"
 }
 
-# Usage: $ _export-env ENV_DIR WHITELIST BLACKLIST
+# Usage: $ export-env ENV_DIR WHITELIST BLACKLIST
 # Exports the environment variables defined in the given directory.
-_export-env() {
+export-env() {
   local env_dir=${1:-$ENV_DIR}
   local whitelist=${2:-''}
   local blacklist="$(_env-blacklist $3)"
@@ -73,7 +73,7 @@ _export-env() {
 #    BLACKLIST=${3:-'^(GIT_DIR|PYTHONHOME|LD_LIBRARY_PATH|LIBRARY_PATH|PATH)$'}
 sub-env() {
   (
-    _export-env $ENV_DIR $WHITELIST $BLACKLIST
+    export-env $ENV_DIR $WHITELIST $BLACKLIST
 
     $1
   )
