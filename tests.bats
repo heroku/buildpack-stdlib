@@ -54,16 +54,30 @@ teardown() {
   [ "$result2" = "export hello=world" ]
 }
 
+@test "results of un-set-env" {
+
+  un-set-env hello
+
+  result="$(cat $PROFILE_PATH)"
+
+  [ "$result" = "unset hello" ]
+}
 
 @test "results of set-default-env" {
 
   set-default-env hello world
 
-  result1="$(cat $PROFILE_PATH)"
+  result1="$(cat $PROFILE_PATH)" 
   result2="$(cat $EXPORT_PATH)"
 
   [ "$result1" = 'export hello=${hello:-world}' ]
   [ "$result1" = 'export hello=${hello:-world}' ]
 }
 
+@test "nowms somewhat accurate" {
+  result=$(nowms | cut -c1-5)
+  now=$(date +%s%3N | cut -c1-5)
+
+  [ "$now" = "$result" ]
+}
 
