@@ -84,8 +84,46 @@ teardown() {
 }
 
 @test "bplog functionality" {
-  run bplog test
+  bplog test
   result=$(cat $BUILDPACK_LOG_FILE)
   
   [ "$result" = 'msg="test"' ]
+}
+
+@test "mtime functionality" {
+  mtime "something" $(nowms)
+  result=$(cat $BUILDPACK_LOG_FILE | cut -c1-24)
+
+  [ "$result" = "measure#tests.something=" ]
+}
+
+@test "mcount functionality" {
+  mcount "something"
+
+  result=$(cat $BUILDPACK_LOG_FILE)
+
+  [ "$result" = "count#tests.something=1" ]
+}
+
+@test "mmeasure functionality" {
+  mmeasure "something" 42
+
+  result=$(cat $BUILDPACK_LOG_FILE)
+
+  [ "$result" = "measure#tests.something=42" ]
+}
+
+@test "munique functionality" {
+  munique "something" 42
+
+  result=$(cat $BUILDPACK_LOG_FILE)
+
+  [ "$result" = "unique#tests.something=42" ]
+}
+
+
+@test "mcount-exit functionality" {
+  run mcount-exit "something"
+
+ [ "$status" -eq 1 ]
 }
