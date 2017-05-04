@@ -6,6 +6,8 @@ source stdlib.sh
 setup() {
   export PROFILE_PATH=$(mktemp)
   export EXPORT_PATH=$(mktemp)
+  export BUILDPACK_LOG_FILE=$(mktemp)
+  export BPLOG_PREFIX='tests'
 }
 
 teardown() {
@@ -81,3 +83,9 @@ teardown() {
   [ "$now" = "$result" ]
 }
 
+@test "bplog functionality" {
+  run bplog test
+  result=$(cat $BUILDPACK_LOG_FILE)
+  
+  [ "$result" = 'msg="test"' ]
+}
