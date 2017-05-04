@@ -16,20 +16,20 @@ teardown() {
 @test "output of puts-step" {
     run puts-step hello
     [ "$status" -eq 0 ]
-    [ "$output" = "\e[1m\e[36m=== hello\e[0m" ]
+    [[ "$output" == *"=== hello"* ]]
 }
 
 @test "output of puts-error" {
     run puts-error hello
     [ "$status" -eq 0 ]
-    [ "$output" = "\e[1m\e[31m=!= hello\e[0m" ]
+    [[ "$output" == *"=!= hello"* ]]
 }
 
 
 @test "output of puts-warn" {
     run puts-warn hello
     [ "$status" -eq 0 ]
-    [ "$output" = "\e[1m\e[33m=!= hello\e[0m" ]
+    [[ "$output" == *"=!= hello"* ]]
 }
 
 @test "results of set-env" {
