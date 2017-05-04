@@ -1,0 +1,2 @@
+test:
+	bats tests.bats
