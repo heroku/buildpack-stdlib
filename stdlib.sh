@@ -36,7 +36,7 @@ set-default-env() {
 }
 
 # Usage: $ un-set-env key
-# NOTICE: Expects PROFILE_PATH & EXPORT_PATH to be set!
+# NOTICE: Expects PROFILE_PATH to be set!
 un-set-env() {
   echo "unset $1" >> $PROFILE_PATH
 }
