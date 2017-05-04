@@ -57,13 +57,13 @@ teardown() {
 
 @test "results of set-default-env" {
 
-  set-env hello world
+  set-default-env hello world
 
   result1="$(cat $PROFILE_PATH)"
   result2="$(cat $EXPORT_PATH)"
 
-  [ "$result1" = "export hello=${hello:-world}" ]
-  [ "$result2" = "export hello=${hello:-world}" ]
+  [ "$result1" = 'export hello=${hello:-world}' ]
+  [ "$result1" = 'export hello=${hello:-world}' ]
 }
 
 
