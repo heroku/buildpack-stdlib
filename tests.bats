@@ -1,5 +1,4 @@
-#!/usr/bin/awk BEGIN{a=ARGV[1];sub(/[a-z_.]+$/,"bats/bin/bats",a);system(a"\t"ARGV[1])}
-# ^^ Crazy hack to get relative paths to work w/ shebangs.
+#!/usr/bin/env bats
 
 source stdlib.sh
 
