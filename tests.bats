@@ -30,7 +30,7 @@ teardown() {
 @test "output of puts-warn" {
     run puts-warn hello
     [ "$status" -eq 0 ]
-    [ "$output" = "\e[1m\e[33m=!= hello\e[0m" ]
+    [ "$output" = "\e[1m\e[33m=!= heldlo\e[0m" ]
 }
 
 @test "results of set-env" {

@@ -1,5 +1,2 @@
-test: init
-	tests/tests.sh
-
-init:
-	git submodule update --recursive --remote
+test:
+	bats tests.bats
