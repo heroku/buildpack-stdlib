@@ -72,7 +72,7 @@ We recommend pinning to a specific release, for stability reasons.
 
 Fetch the repo from GitHub:
 
-- `$ git clone https://git.heroku.com/buildpack-stdlib.git`
+- `$ git clone git@github.com:heroku/buildpack-stdlib.git`
 - `$ cd buildpack-stdlib`
 
 Upload the stdlib to Amazon S3:
