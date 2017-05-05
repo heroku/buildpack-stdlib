@@ -1,7 +1,7 @@
 # The Buildpack Standard Library
 
-[![Build Status](https://img.shields.io/travis/heroku/buildpack-stdlib/master.svg)](https://travis-ci.org/heroku/buildpack-stdlib)
 [![GitHub tag](https://img.shields.io/github/tag/heroku/buildpack-stdlib.svg)]()
+[![Build Status](https://img.shields.io/travis/heroku/buildpack-stdlib/master.svg)](https://travis-ci.org/heroku/buildpack-stdlib)
 [![Available](https://img.shields.io/website-up-down-green-red/http/lang-common.s3.amazonaws.com.svg?label=Deployment%20Available)]()
 
 
