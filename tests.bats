@@ -146,5 +146,5 @@ teardown() {
 
   run sub-env env
 
-  [[ "$output" = *"HELLO=WORLD"* ]]
+  [[ "$output" == *"WORLD"* ]]
 }
