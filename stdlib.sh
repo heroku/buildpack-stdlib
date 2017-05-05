@@ -3,17 +3,33 @@
 
 # Buildpack Steps.
 puts_step() {
-  echo -e "\e[1m\e[36m=== $@\e[0m"
+  if [[ "$@" == "-" ]]; then
+    read output
+  else
+    output=$@
+  fi
+  echo -e "\e[1m\e[36m=== $output\e[0m"
+  unset output
 }
 
 # Buildpack Error.
 puts_error() {
-  echo -e "\e[1m\e[31m=!= $@\e[0m"
+  if [[ "$@" == "-" ]]; then
+    read output
+  else
+    output=$@
+  fi
+  echo -e "\e[1m\e[31m=!= $output\e[0m"
 }
 
 # Buildpack Warning.
 puts_warn() {
-  echo -e "\e[1m\e[33m=!= $@\e[0m"
+  if [[ "$@" == "-" ]]; then
+    read output
+  else
+    output=$@
+  fi
+  echo -e "\e[1m\e[33m=!= $output\e[0m"
 }
 
 
