@@ -38,7 +38,7 @@ We recommend pinning to a specific release, for stability reasons.
 
  This will make the following functions available:
 
-**Metrics**:
+**Metrics (only available to Official Heroku Buildpacks)**:
 
 - `nowms`, which returns the current time in millesconds.
 - `mtime`, which measures time elapsed for a specific build step.
@@ -47,13 +47,13 @@ We recommend pinning to a specific release, for stability reasons.
 - `munique`, which logs a unique measurement build step.
 - `mcount_exit`, which logs an exit event and exits 1.
 
-**Standard output (subject to change)**:
+**Standard output**:
 
 - `puts_step`, which outputs a build step in a standardized format.
 - `puts_error`, which outputs a build error in a standarized format.
 - `puts_warn`, which outputs a build warning in a standardized format.
 
-**Buildpack utilities (subject to change)**:
+**Buildpack utilities**:
 
 - `set_env`, which writes an environment variable to a profile and export script (for multi-buildpack support).
 - `set_default_env`, which writes a default environment variable to a profile and export script (for multi-buildpack support).
