@@ -82,5 +82,3 @@ Notice the version number outputted, then tag it in Git and push that to GitHub:
 - `$ git push --tags`
 
 Don't forget to update `HISTORY.txt`!
-
-Make sure you have `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` set.
