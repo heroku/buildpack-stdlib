@@ -1,4 +1,6 @@
-$ v5
+# v6
+ - Piped input for standardized output functions.
+# v5
  - Test deployment.
 # v4
  - POSIX compliance: replace all dashes in function names with underscores.
