@@ -38,15 +38,6 @@ We recommend pinning to a specific release, for stability reasons.
 
  This will make the following functions available:
 
-**Metrics (only available to Official Heroku Buildpacks)**:
-
-- `nowms`, which returns the current time in millesconds.
-- `mtime`, which measures time elapsed for a specific build step.
-- `mcount`, which logs a count for a specific build step.
-- `mmeasure`, which logs a measure for specific build step.
-- `munique`, which logs a unique measurement build step.
-- `mcount_exit`, which logs an exit event and exits 1.
-
 **Standard output**:
 
 - `puts_step`, which outputs a build step in a standardized format.
@@ -61,6 +52,14 @@ We recommend pinning to a specific release, for stability reasons.
 - `sub_env`, which launches a subshell with user-provided config.
 - `export_env`, which exports user-provided config into the current shell.
 
+**Metrics (only available to Official Heroku Buildpacks)**:
+
+- `nowms`, which returns the current time in millesconds.
+- `mtime`, which measures time elapsed for a specific build step.
+- `mcount`, which logs a count for a specific build step.
+- `mmeasure`, which logs a measure for specific build step.
+- `munique`, which logs a unique measurement build step.
+- `mcount_exit`, which logs an exit event and exits 1.
 
 *Please see the contents of [stdlib.sh](https://github.com/heroku/buildpack-stdlib/blob/master/stdlib.sh) for more usage details (including required environment variables).*
 
