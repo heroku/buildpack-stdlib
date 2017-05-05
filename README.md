@@ -1,5 +1,7 @@
 # The Buildpack Standard Library
 
+[![Build Status](https://travis-ci.org/heroku/buildpack-stdlib.svg?branch=master)](https://travis-ci.org/heroku/buildpack-stdlib)
+
 This repo contains a standard library for use within Heroku Buildpacks.
 
 It allows for unified output methods, some common buildpack utilities, and facilitates metrics logging.
