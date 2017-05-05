@@ -66,9 +66,21 @@ We recommend pinning to a specific release, for stability reasons.
 
 ## Deploying to S3
 
-- First, get pip installed (for Python).
-- Then, install pipenv (`$ pip install pipenv`).
-- `$ pipenv install`
-- `$ pipenv run python upload.py v42 --latest`
+Fetch the repo from GitHub:
+
+- `$ git clone https://git.heroku.com/buildpack-stdlib.git`
+- `$ cd buildpack-stdlib`
+
+Upload the stdlib to Amazon S3:
+
+- `$ git remote add heroku https://git.heroku.com/buildpack-stdlib.git`
+- `$ git push heroku master`
+- `$ heroku run python upload.py`
+
+Notice the version number outputted, then tag it in Git and push that to GitHub:
+- `$ git tag v42`
+- `$ git push --tags`
+
+Don't forget to update `HISTORY.txt`!
 
 Make sure you have `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` set.
