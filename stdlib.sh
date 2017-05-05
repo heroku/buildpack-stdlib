@@ -36,9 +36,34 @@ set-default-env() {
 }
 
 # Usage: $ un-set-env key
-# NOTICE: Expects PROFILE_PATH & EXPORT_PATH to be set!
+# NOTICE: Expects PROFILE_PATH to be set!
 un-set-env() {
   echo "unset $1" >> $PROFILE_PATH
+}
+
+# Usage: $ _env-blacklist pattern
+# Outputs a regex of default blacklist env vars.
+_env-blacklist() {
+  local regex=${1:-''}
+  if [ -n "$regex" ]; then
+    regex="|$regex"
+  fi
+  echo "^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH$regex)$"
+}
+
+# Usage: $ export-env ENV_DIR WHITELIST BLACKLIST
+# Exports the environment variables defined in the given directory.
+export-env() {
+  local env_dir=${1:-$ENV_DIR}
+  local whitelist=${2:-''}
+  local blacklist="$(_env-blacklist $3)"
+  if [ -d "$env_dir" ]; then
+    for e in $(ls $env_dir); do
+      echo "$e" | grep -E "$whitelist" | grep -qvE "$blacklist" &&
+      export "$e=$(cat $env_dir/$e)"
+      :
+    done
+  fi
 }
 
 # Usage: $ sub-env command
@@ -48,16 +73,9 @@ un-set-env() {
 #    BLACKLIST=${3:-'^(GIT_DIR|PYTHONHOME|LD_LIBRARY_PATH|LIBRARY_PATH|PATH)$'}
 sub-env() {
   (
-    if [ -d "$ENV_DIR" ]; then
-      for e in $(ls $ENV_DIR); do
-        echo "$e" | grep -E "$WHITELIST" | grep -qvE "$BLACKLIST" &&
-        export "$e=$(cat $ENV_DIR/$e)"
-        :
-      done
-    fi
+    export-env $ENV_DIR $WHITELIST $BLACKLIST
 
     $1
-
   )
 }
 

@@ -4,10 +4,16 @@ source stdlib.sh
 
 
 setup() {
+  # The Basics.
   export PROFILE_PATH=$(mktemp)
   export EXPORT_PATH=$(mktemp)
   export BUILDPACK_LOG_FILE=$(mktemp)
   export BPLOG_PREFIX='tests'
+
+  # User Environment Variables.
+  mkdir -p $BATS_TMPDIR/env/
+  echo "WORLD" > $BATS_TMPDIR/env/HELLO
+  export ENV_DIR="$BATS_TMPDIR/env/"
 }
 
 teardown() {
@@ -69,7 +75,7 @@ teardown() {
 
   set-default-env hello world
 
-  result1="$(cat $PROFILE_PATH)" 
+  result1="$(cat $PROFILE_PATH)"
   result2="$(cat $EXPORT_PATH)"
 
   [ "$result1" = 'export hello=${hello:-world}' ]
@@ -86,7 +92,7 @@ teardown() {
 @test "bplog functionality" {
   bplog test
   result=$(cat $BUILDPACK_LOG_FILE)
-  
+
   [ "$result" = 'msg="test"' ]
 }
 
@@ -126,4 +132,22 @@ teardown() {
   run mcount-exit "something"
 
  [ "$status" -eq 1 ]
+}
+
+@test "export-env working properly" {
+  export-env
+
+  [ "$HELLO" = "WORLD" ]
+}
+
+@test "sub-env working properly" {
+  skip
+  # TODO: doesn't work on Travis — does on OSX and Xenial.
+
+  export WHITELIST=${2:-''}
+  export BLACKLIST=${3:-'^(GIT_DIR|PYTHONHOME|LD_LIBRARY_PATH|LIBRARY_PATH|PATH)$'}
+
+  run sub-env env
+
+  [[ "$output" == *"WORLD"* ]]
 }
