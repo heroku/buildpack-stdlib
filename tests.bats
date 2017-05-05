@@ -24,26 +24,41 @@ teardown() {
     unset ENV_DIR
 }
 
-@test "output of puts-step" {
+@test "output of puts_step" {
     run puts_step hello
     [ "$status" -eq 0 ]
     [[ "$output" == *"=== hello"* ]]
 }
 
-@test "output of puts-error" {
+@test "piped input of puts_step" {
+    output=$(echo 'hello' | puts_step -)
+    [[ "$output" == *"=== hello"* ]]
+}
+
+
+@test "output of puts_error" {
     run puts_error hello
     [ "$status" -eq 0 ]
     [[ "$output" == *"=!= hello"* ]]
 }
 
+@test "piped input of puts_error" {
+    output=$(echo 'hello' | puts_error -)
+    [[ "$output" == *"=!= hello"* ]]
+}
 
-@test "output of puts-warn" {
+@test "output of puts_warn" {
     run puts_warn hello
     [ "$status" -eq 0 ]
     [[ "$output" == *"=!= hello"* ]]
 }
 
-@test "results of set-env" {
+@test "piped input of puts_warn" {
+    output=$(echo 'hello' | puts_warn -)
+    [[ "$output" == *"=!= hello"* ]]
+}
+
+@test "results of set_env" {
 
   set_env hello world
 
@@ -54,7 +69,7 @@ teardown() {
   [ "$result2" = "export hello=world" ]
 }
 
-@test "results of set-env" {
+@test "results of set_env" {
 
   set_env hello world
 
@@ -65,7 +80,7 @@ teardown() {
   [ "$result2" = "export hello=world" ]
 }
 
-@test "results of un-set-env" {
+@test "results of un_set_env" {
 
   un_set_env hello
 
@@ -74,7 +89,7 @@ teardown() {
   [ "$result" = "unset hello" ]
 }
 
-@test "results of set-default-env" {
+@test "results of set_default_env" {
 
   set_default_env hello world
 
@@ -131,19 +146,19 @@ teardown() {
 }
 
 
-@test "mcount-exit functionality" {
+@test "mcount_exit functionality" {
   run mcount_exit "something"
 
  [ "$status" -eq 1 ]
 }
 
-@test "export-env working properly" {
+@test "export_env working properly" {
   export_env
 
   [ "$HELLO" = "WORLD" ]
 }
 
-@test "sub-env working properly" {
+@test "sub_env working properly" {
 
   run sub_env env
 
