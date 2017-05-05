@@ -1,7 +1,7 @@
 # The Buildpack Standard Library
 
 [![Build Status](https://img.shields.io/travis/heroku/buildpack-stdlib/master.svg)](https://travis-ci.org/heroku/buildpack-stdlib)
-[![Available](https://img.shields.io/website-up-down-green-red/http/lang-common.s3.amazonaws.com.svg?label=Available)]()
+[![Available](https://img.shields.io/website-up-down-green-red/http/lang-common.s3.amazonaws.com.svg?label=Deployment%20Available)]()
 
 
 This repo contains a standard library for use within Heroku Buildpacks.
