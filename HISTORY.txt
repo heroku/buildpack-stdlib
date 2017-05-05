@@ -1,3 +1,7 @@
+$ v5
+ - Test deployment.
+# v4
+ - POSIX compliance: replace all dashes in function names with underscores.
 # v3
  - Refactor, introduction of export-env, tests.
 # v2
