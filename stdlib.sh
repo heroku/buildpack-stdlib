@@ -68,7 +68,8 @@ export_env() {
 
 # Usage: $ sub-env command
 # Runs a subshell of specified command with user-provided config.
-# NOTICE: Expects ENV_DIR, WHITELIST & BLACKLIST to be set! Examples:
+# NOTICE: Expects ENV_DIR to be set. WHITELIST & BLACKLIST are optional.
+# Examples:
 #    WHITELIST=${2:-''}
 #    BLACKLIST=${3:-'^(GIT_DIR|PYTHONHOME|LD_LIBRARY_PATH|LIBRARY_PATH|PATH)$'}
 sub_env() {
