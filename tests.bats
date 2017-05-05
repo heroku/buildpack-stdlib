@@ -19,6 +19,9 @@ setup() {
 teardown() {
     unset PROFILE_PATH
     unset EXPORT_PATH
+    unset BUILDPACK_LOG_FILE
+    unset BPLOG_PREFIX
+    unset ENV_DIR
 }
 
 @test "output of puts-step" {
