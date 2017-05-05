@@ -22,27 +22,27 @@ teardown() {
 }
 
 @test "output of puts-step" {
-    run puts-step hello
+    run puts_step hello
     [ "$status" -eq 0 ]
     [[ "$output" == *"=== hello"* ]]
 }
 
 @test "output of puts-error" {
-    run puts-error hello
+    run puts_error hello
     [ "$status" -eq 0 ]
     [[ "$output" == *"=!= hello"* ]]
 }
 
 
 @test "output of puts-warn" {
-    run puts-warn hello
+    run puts_warn hello
     [ "$status" -eq 0 ]
     [[ "$output" == *"=!= hello"* ]]
 }
 
 @test "results of set-env" {
 
-  set-env hello world
+  set_env hello world
 
   result1="$(cat $PROFILE_PATH)"
   result2="$(cat $EXPORT_PATH)"
@@ -53,7 +53,7 @@ teardown() {
 
 @test "results of set-env" {
 
-  set-env hello world
+  set_env hello world
 
   result1="$(cat $PROFILE_PATH)"
   result2="$(cat $EXPORT_PATH)"
@@ -64,7 +64,7 @@ teardown() {
 
 @test "results of un-set-env" {
 
-  un-set-env hello
+  un_set_env hello
 
   result="$(cat $PROFILE_PATH)"
 
@@ -73,7 +73,7 @@ teardown() {
 
 @test "results of set-default-env" {
 
-  set-default-env hello world
+  set_default_env hello world
 
   result1="$(cat $PROFILE_PATH)"
   result2="$(cat $EXPORT_PATH)"
@@ -129,25 +129,20 @@ teardown() {
 
 
 @test "mcount-exit functionality" {
-  run mcount-exit "something"
+  run mcount_exit "something"
 
  [ "$status" -eq 1 ]
 }
 
 @test "export-env working properly" {
-  export-env
+  export_env
 
   [ "$HELLO" = "WORLD" ]
 }
 
 @test "sub-env working properly" {
-  skip
-  # TODO: doesn't work on Travis — does on OSX and Xenial.
 
-  export WHITELIST=${2:-''}
-  export BLACKLIST=${3:-'^(GIT_DIR|PYTHONHOME|LD_LIBRARY_PATH|LIBRARY_PATH|PATH)$'}
+  run sub_env env
 
-  run sub-env env
-
-  [[ "$output" == *"WORLD"* ]]
+  [[ "$output" == *"HELLO=WORLD"* ]]
 }

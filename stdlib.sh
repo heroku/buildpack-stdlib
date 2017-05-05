@@ -2,17 +2,17 @@
 # ---------------
 
 # Buildpack Steps.
-puts-step() {
+puts_step() {
   echo -e "\e[1m\e[36m=== $@\e[0m"
 }
 
 # Buildpack Error.
-puts-error() {
+puts_error() {
   echo -e "\e[1m\e[31m=!= $@\e[0m"
 }
 
 # Buildpack Warning.
-puts-warn() {
+puts_warn() {
   echo -e "\e[1m\e[33m=!= $@\e[0m"
 }
 
@@ -22,7 +22,7 @@ puts-warn() {
 
 # Usage: $ set-env key value
 # NOTICE: Expects PROFILE_PATH & EXPORT_PATH to be set!
-set-env() {
+set_env() {
   # TODO: automatically create profile path directory if it doesn't exist.
   echo "export $1=$2" >> $PROFILE_PATH
   echo "export $1=$2" >> $EXPORT_PATH
@@ -30,20 +30,20 @@ set-env() {
 
 # Usage: $ set-default-env key value
 # NOTICE: Expects PROFILE_PATH & EXPORT_PATH to be set!
-set-default-env() {
+set_default_env() {
   echo "export $1=\${$1:-$2}" >> $PROFILE_PATH
   echo "export $1=\${$1:-$2}" >> $EXPORT_PATH
 }
 
 # Usage: $ un-set-env key
 # NOTICE: Expects PROFILE_PATH to be set!
-un-set-env() {
+un_set_env() {
   echo "unset $1" >> $PROFILE_PATH
 }
 
 # Usage: $ _env-blacklist pattern
 # Outputs a regex of default blacklist env vars.
-_env-blacklist() {
+_env_blacklist() {
   local regex=${1:-''}
   if [ -n "$regex" ]; then
     regex="|$regex"
@@ -53,10 +53,10 @@ _env-blacklist() {
 
 # Usage: $ export-env ENV_DIR WHITELIST BLACKLIST
 # Exports the environment variables defined in the given directory.
-export-env() {
+export_env() {
   local env_dir=${1:-$ENV_DIR}
   local whitelist=${2:-''}
-  local blacklist="$(_env-blacklist $3)"
+  local blacklist="$(_env_blacklist $3)"
   if [ -d "$env_dir" ]; then
     for e in $(ls $env_dir); do
       echo "$e" | grep -E "$whitelist" | grep -qvE "$blacklist" &&
@@ -67,13 +67,13 @@ export-env() {
 }
 
 # Usage: $ sub-env command
-# Runs a subshell with user-provided config.
-# NOTICE: Expects a WHITELIST & BLACKLIST to be set! Examples:
+# Runs a subshell of specified command with user-provided config.
+# NOTICE: Expects ENV_DIR, WHITELIST & BLACKLIST to be set! Examples:
 #    WHITELIST=${2:-''}
 #    BLACKLIST=${3:-'^(GIT_DIR|PYTHONHOME|LD_LIBRARY_PATH|LIBRARY_PATH|PATH)$'}
-sub-env() {
+sub_env() {
   (
-    export-env $ENV_DIR $WHITELIST $BLACKLIST
+    export_env $ENV_DIR $WHITELIST $BLACKLIST
 
     $1
   )
@@ -136,7 +136,7 @@ munique() {
 
 # Measures when an exit path to the buildpack is reached, given a name, then exits 1.
 # Usage: $ mcount-exi "binExists"
-mcount-exit() {
+mcount_exit() {
     mcount "error.${1}"
     exit 1
 }
