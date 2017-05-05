@@ -1,4 +1,8 @@
-# v1 (next)
- - Improvements to comments. 
+# v3
+ - Refactor, introduction of export-env, tests.
+# v2
+ - Improvements.
+# v1
+ - Improvements to comments.
 # v0
- - First conception. 
+ - First conception.
