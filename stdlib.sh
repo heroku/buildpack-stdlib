@@ -1,3 +1,8 @@
+# Buildpack defaults
+# ---------------
+
+export BUILDPACK_LOG_FILE=${BUILDPACK_LOG_FILE:-/dev/null}
+
 # Standard Output
 # ---------------
 
