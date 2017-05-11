@@ -1,3 +1,5 @@
+# v7
+ - Automatically set BUILDPACK_LOG_FILE default.
 # v6
  - Piped input for standardized output functions.
 # v5
