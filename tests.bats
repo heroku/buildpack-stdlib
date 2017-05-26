@@ -67,7 +67,7 @@ teardown() {
 
     run puts_verbose hello
     [ "$status" -eq 0 ]
-    [[ "$output" == *"=== hello"* ]]
+    [[ "$output" == *"hello"* ]]
 }
 
 @test "piped input of puts_verbose" {
@@ -77,7 +77,7 @@ teardown() {
     BUILDPACK_VERBOSE=true
 
     output=$(echo 'hello' | puts_verbose -)
-    [[ "$output" == *"=== hello"* ]]
+    [[ "$output" == *"hello"* ]]
 }
 
 @test "results of set_env" {
