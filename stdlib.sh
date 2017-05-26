@@ -54,7 +54,7 @@ puts_verbose() {
     else
       output=$@
     fi
-    echo -e "\e[1m\e[36m=== $output\e[0m"
+    puts_step $output
     unset output
   fi
 }
