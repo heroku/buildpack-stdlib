@@ -2,6 +2,7 @@
 # ---------------
 
 export BUILDPACK_LOG_FILE=${BUILDPACK_LOG_FILE:-/dev/null}
+export BUILDPACK_VERBOSE=${BUILDPACK_VERBOSE:-}
 
 # Standard Output
 # ---------------
@@ -37,6 +38,18 @@ puts_warn() {
   echo -e "\e[1m\e[33m=!= $output\e[0m"
 }
 
+# Buildpack Verbose
+puts_verbose() {
+  if [[ -n $BUILDPACK_VERBOSE ]]; then
+    if [[ "$@" == "-" ]]; then
+      read output
+    else
+      output=$@
+    fi
+    echo -e "\e[1m\e[36m=== $output\e[0m"
+    unset output
+  fi
+}
 
 # Buildpack Utilities
 # -------------------

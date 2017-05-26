@@ -43,6 +43,7 @@ We recommend pinning to a specific release, for stability reasons.
 - `puts_step`, which outputs a build step in a standardized format.
 - `puts_error`, which outputs a build error in a standarized format.
 - `puts_warn`, which outputs a build warning in a standardized format.
+- `puts_verbose`, which outputs a build step if the environment variable `BUILDPACK_VERBOSE` is set
 
 **Buildpack utilities**:
 
