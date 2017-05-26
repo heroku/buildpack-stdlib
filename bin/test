@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+SHUNIT_VERSION="2.1.6"
+SHUNIT_NAME="shunit2-${SHUNIT_VERSION}"
+SHUNIT_URL="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/shunit2/${SHUNIT_NAME}.tgz"
+
+if [ ! -d vendor/$SHUNIT_NAME/ ]; then
+  echo "Installing shunit2"
+  mkdir -p vendor
+  curl -s --retry 3 -L $SHUNIT_URL | tar xz -C vendor/
+fi
+
+for test_script in tests/*.sh; do
+  echo "Running $test_script"
+  vendor/$SHUNIT_NAME/src/shunit2 $test_script
+done
