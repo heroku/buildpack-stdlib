@@ -58,6 +58,28 @@ teardown() {
     [[ "$output" == *"=!= hello"* ]]
 }
 
+@test "output of puts_verbose" {
+    run puts_verbose hello
+    [ "$status" -eq 0 ]
+    [[ "$output" == "" ]]
+
+    BUILDPACK_VERBOSE=true
+
+    run puts_verbose hello
+    [ "$status" -eq 0 ]
+    [[ "$output" == *"=== hello"* ]]
+}
+
+@test "piped input of puts_verbose" {
+    output=$(echo 'hello' | puts_verbose -)
+    [[ "$output" == "" ]]
+
+    BUILDPACK_VERBOSE=true
+
+    output=$(echo 'hello' | puts_verbose -)
+    [[ "$output" == *"=== hello"* ]]
+}
+
 @test "results of set_env" {
 
   set_env hello world
