@@ -54,7 +54,7 @@ puts_verbose() {
     else
       output=$@
     fi
-    puts_step $output
+    echo $output
     unset output
   fi
 }
