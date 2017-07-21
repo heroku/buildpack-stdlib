@@ -17,67 +17,67 @@ setup() {
 }
 
 teardown() {
-    unset PROFILE_PATH
-    unset EXPORT_PATH
-    unset BUILDPACK_LOG_FILE
-    unset BPLOG_PREFIX
-    unset ENV_DIR
+  unset PROFILE_PATH
+  unset EXPORT_PATH
+  unset BUILDPACK_LOG_FILE
+  unset BPLOG_PREFIX
+  unset ENV_DIR
 }
 
 @test "output of puts_step" {
-    run puts_step hello
-    [ "$status" -eq 0 ]
-    [[ "$output" == *"=== hello"* ]]
+  run puts_step hello
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"=== hello"* ]]
 }
 
 @test "piped input of puts_step" {
-    output=$(echo 'hello' | puts_step -)
-    [[ "$output" == *"=== hello"* ]]
+  output=$(echo 'hello' | puts_step -)
+  [[ "$output" == *"=== hello"* ]]
 }
 
 
 @test "output of puts_error" {
-    run puts_error hello
-    [ "$status" -eq 0 ]
-    [[ "$output" == *"=!= hello"* ]]
+  run puts_error hello
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"=!= hello"* ]]
 }
 
 @test "piped input of puts_error" {
-    output=$(echo 'hello' | puts_error -)
-    [[ "$output" == *"=!= hello"* ]]
+  output=$(echo 'hello' | puts_error -)
+  [[ "$output" == *"=!= hello"* ]]
 }
 
 @test "output of puts_warn" {
-    run puts_warn hello
-    [ "$status" -eq 0 ]
-    [[ "$output" == *"=!= hello"* ]]
+  run puts_warn hello
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"=!= hello"* ]]
 }
 
 @test "piped input of puts_warn" {
-    output=$(echo 'hello' | puts_warn -)
-    [[ "$output" == *"=!= hello"* ]]
+  output=$(echo 'hello' | puts_warn -)
+  [[ "$output" == *"=!= hello"* ]]
 }
 
 @test "output of puts_verbose" {
-    run puts_verbose hello
-    [ "$status" -eq 0 ]
-    [[ "$output" == "" ]]
+  run puts_verbose hello
+  [ "$status" -eq 0 ]
+  [[ "$output" == "" ]]
 
-    BUILDPACK_VERBOSE=true
+  BUILDPACK_VERBOSE=true
 
-    run puts_verbose hello
-    [ "$status" -eq 0 ]
-    [[ "$output" == *"hello"* ]]
+  run puts_verbose hello
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"hello"* ]]
 }
 
 @test "piped input of puts_verbose" {
-    output=$(echo 'hello' | puts_verbose -)
-    [[ "$output" == "" ]]
+  output=$(echo 'hello' | puts_verbose -)
+  [[ "$output" == "" ]]
 
-    BUILDPACK_VERBOSE=true
+  BUILDPACK_VERBOSE=true
 
-    output=$(echo 'hello' | puts_verbose -)
-    [[ "$output" == *"hello"* ]]
+  output=$(echo 'hello' | puts_verbose -)
+  [[ "$output" == *"hello"* ]]
 }
 
 @test "results of set_env" {
