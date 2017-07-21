@@ -40,6 +40,7 @@ def do_list():
     for version in iter_versions():
         print ' - {0}'.format(version)
 
+
 def iter_versions():
     """Yields uploaded versions."""
 
@@ -49,10 +50,12 @@ def iter_versions():
         if results:
             yield results['version']
 
+
 def next_version():
     """Returns the next version string."""
 
-    return 'v{0}'.format(int(list(iter_versions())[-1][1:]) +1)
+    return 'v{0}'.format(int(list(iter_versions())[-1][1:]) + 1)
+
 
 def upload(version):
     """Uploads a given version to S3."""
@@ -65,6 +68,7 @@ def upload(version):
     bucket.key(key).make_public()
 
     print key
+
 
 def do_upload(version, latest=False):
     """Console function for uploading script to S3."""
