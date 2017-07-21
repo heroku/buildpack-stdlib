@@ -131,7 +131,7 @@ sub_env() {
 # Returns now, in milleseconds. Useful for logging.
 # Example: $ let start=$(nowms); sleep 30; mtime "glide.install.time" "${start}"
 nowms() {
-    date +%s%3N
+  date +%s%3N
 }
 
 # Log arbitrary data to the logfile (e.g. a packaging file).
@@ -144,42 +144,42 @@ bplog() {
 # Usage: $ let start=$(nowms); mtime "glide.install.time" "${start}"
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#distributions-measure
 mtime() {
-    local key="${BPLOG_PREFIX}.${1}"
-    local start="${2}"
-    local end="${3:-$(nowms)}"
-    echo "${key} ${start} ${end}" | awk '{ printf "measure#%s=%.3f\n", $1, ($3 - $2)/1000 }' >> ${BUILDPACK_LOG_FILE}
+  local key="${BPLOG_PREFIX}.${1}"
+  local start="${2}"
+  local end="${3:-$(nowms)}"
+  echo "${key} ${start} ${end}" | awk '{ printf "measure#%s=%.3f\n", $1, ($3 - $2)/1000 }' >> ${BUILDPACK_LOG_FILE}
 }
 
 # Logs a count for a specific built step.
 # Usage: $ mcount "tool.govendor"
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#counting-count
 mcount() {
-    local k="${BPLOG_PREFIX}.${1}"
-    local v="${2:-1}"
-    echo "count#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
+  local k="${BPLOG_PREFIX}.${1}"
+  local v="${2:-1}"
+  echo "count#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
 }
 
 # Logs a measure for a specific build step.
 # Usage: $ mmeasure "tool.installed_dependencies" 42
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#distributions-measure
 mmeasure() {
-    local k="${BPLOG_PREFIX}.${1}"
-    local v="${2}"
-    echo "measure#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
+  local k="${BPLOG_PREFIX}.${1}"
+  local v="${2}"
+  echo "measure#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
 }
 
 # Logs a unuique measurement build step.
 # Usage: $ munique "versions.count" 2.7.13
 # https://github.com/heroku/engineering-docs/blob/master/guides/logs-as-data.md#uniques-unique
 munique() {
-    local k="${BPLOG_PREFIX}.${1}"
-    local v="${2}"
-    echo "unique#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
+  local k="${BPLOG_PREFIX}.${1}"
+  local v="${2}"
+  echo "unique#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
 }
 
 # Measures when an exit path to the buildpack is reached, given a name, then exits 1.
 # Usage: $ mcount-exi "binExists"
 mcount_exit() {
-    mcount "error.${1}"
-    exit 1
+  mcount "error.${1}"
+  exit 1
 }
