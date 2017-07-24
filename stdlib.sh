@@ -10,10 +10,10 @@ export BUILDPACK_LOG_FILE=${BUILDPACK_LOG_FILE:-/dev/null}
 
 # Buildpack Steps.
 puts_step() {
-  if [[ "$@" == "-" ]]; then
+  if [[ "$*" == "-" ]]; then
     read output
   else
-    output=$@
+    output=$*
   fi
   echo -e "\e[1m\e[36m=== $output\e[0m"
   unset output
@@ -21,20 +21,20 @@ puts_step() {
 
 # Buildpack Error.
 puts_error() {
-  if [[ "$@" == "-" ]]; then
+  if [[ "$*" == "-" ]]; then
     read output
   else
-    output=$@
+    output=$*
   fi
   echo -e "\e[1m\e[31m=!= $output\e[0m"
 }
 
 # Buildpack Warning.
 puts_warn() {
-  if [[ "$@" == "-" ]]; then
+  if [[ "$*" == "-" ]]; then
     read output
   else
-    output=$@
+    output=$*
   fi
   echo -e "\e[1m\e[33m=!= $output\e[0m"
 }
@@ -51,10 +51,10 @@ is_verbose() {
 # Buildpack Verbose.
 puts_verbose() {
   if is_verbose; then
-    if [[ "$@" == "-" ]]; then
+    if [[ "$*" == "-" ]]; then
       read output
     else
-      output=$@
+      output=$*
     fi
     echo $output
     unset output
