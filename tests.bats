@@ -5,9 +5,12 @@ source stdlib.sh
 
 setup() {
   # The Basics.
-  export PROFILE_PATH=$(mktemp)
-  export EXPORT_PATH=$(mktemp)
-  export BUILDPACK_LOG_FILE=$(mktemp)
+  export PROFILE_PATH
+  PROFILE_PATH=$(mktemp)
+  export EXPORT_PATH
+  EXPORT_PATH=$(mktemp)
+  export BUILDPACK_LOG_FILE
+  BUILDPACK_LOG_FILE=$(mktemp)
   export BPLOG_PREFIX='tests'
 
   # User Environment Variables.
