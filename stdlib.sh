@@ -103,6 +103,8 @@ export_env() {
   local blacklist
   blacklist="$(_env_blacklist "$3")"
   if [ -d "$env_dir" ]; then
+    # Environment variable names won't contain characters affected by:
+    # shellcheck disable=SC2045
     for e in $(ls "$env_dir"); do
       echo "$e" | grep -E "$whitelist" | grep -qvE "$blacklist" &&
       export "$e=$(cat "$env_dir/$e")"
