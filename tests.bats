@@ -136,7 +136,7 @@ teardown() {
 
 @test "mtime functionality" {
   mtime "something" "$(nowms)"
-  result=$(cat "$BUILDPACK_LOG_FILE" | cut -c1-24)
+  result=$(cut -c1-24 "$BUILDPACK_LOG_FILE")
 
   [ "$result" = "measure#tests.something=" ]
 }
