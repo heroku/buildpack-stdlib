@@ -121,6 +121,8 @@ export_env() {
 #    BLACKLIST=${3:-'^(GIT_DIR|PYTHONHOME|LD_LIBRARY_PATH|LIBRARY_PATH|PATH)$'}
 sub_env() {
   (
+    # TODO: Fix https://github.com/heroku/buildpack-stdlib/issues/37
+    # shellcheck disable=SC2153
     export_env "$ENV_DIR" "$WHITELIST" "$BLACKLIST"
 
     $1
