@@ -15,7 +15,7 @@ puts_step() {
   else
     output=$*
   fi
-  echo -e "\e[1m\e[36m=== $output\e[0m"
+  echo -e "\\e[1m\\e[36m=== $output\\e[0m"
   unset output
 }
 
@@ -26,7 +26,7 @@ puts_error() {
   else
     output=$*
   fi
-  echo -e "\e[1m\e[31m=!= $output\e[0m"
+  echo -e "\\e[1m\\e[31m=!= $output\\e[0m"
 }
 
 # Buildpack Warning.
@@ -36,7 +36,7 @@ puts_warn() {
   else
     output=$*
   fi
-  echo -e "\e[1m\e[33m=!= $output\e[0m"
+  echo -e "\\e[1m\\e[33m=!= $output\\e[0m"
 }
 
 # Is verbose set?
