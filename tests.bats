@@ -35,7 +35,6 @@ teardown() {
   [[ "$output" == *"=== hello"* ]] || false
 }
 
-
 @test "output of puts_error" {
   run puts_error hello
   [ "$status" -eq 0 ]
@@ -81,7 +80,6 @@ teardown() {
 }
 
 @test "results of set_env" {
-
   set_env hello world
 
   result1="$(cat $PROFILE_PATH)"
@@ -92,7 +90,6 @@ teardown() {
 }
 
 @test "results of set_env" {
-
   set_env hello world
 
   result1="$(cat $PROFILE_PATH)"
@@ -103,7 +100,6 @@ teardown() {
 }
 
 @test "results of un_set_env" {
-
   un_set_env hello
 
   result="$(cat $PROFILE_PATH)"
@@ -112,7 +108,6 @@ teardown() {
 }
 
 @test "results of set_default_env" {
-
   set_default_env hello world
 
   result1="$(cat $PROFILE_PATH)"
@@ -167,11 +162,10 @@ teardown() {
   [ "$result" = "unique#tests.something=42" ]
 }
 
-
 @test "mcount_exit functionality" {
   run mcount_exit "something"
 
- [ "$status" -eq 1 ]
+  [ "$status" -eq 1 ]
 }
 
 @test "export_env working properly" {
@@ -181,7 +175,6 @@ teardown() {
 }
 
 @test "sub_env working properly" {
-
   run sub_env env
 
   [[ "$output" == *"HELLO=WORLD"* ]] || false
