@@ -11,7 +11,7 @@ export BUILDPACK_LOG_FILE=${BUILDPACK_LOG_FILE:-/dev/null}
 # Buildpack Steps.
 puts_step() {
   if [[ "$*" == "-" ]]; then
-    read output
+    read -r output
   else
     output=$*
   fi
@@ -22,7 +22,7 @@ puts_step() {
 # Buildpack Error.
 puts_error() {
   if [[ "$*" == "-" ]]; then
-    read output
+    read -r output
   else
     output=$*
   fi
@@ -32,7 +32,7 @@ puts_error() {
 # Buildpack Warning.
 puts_warn() {
   if [[ "$*" == "-" ]]; then
-    read output
+    read -r output
   else
     output=$*
   fi
@@ -52,7 +52,7 @@ is_verbose() {
 puts_verbose() {
   if is_verbose; then
     if [[ "$*" == "-" ]]; then
-      read output
+      read -r output
     else
       output=$*
     fi
