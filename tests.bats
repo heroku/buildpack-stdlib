@@ -114,7 +114,7 @@ teardown() {
   result2="$(cat $EXPORT_PATH)"
 
   [ "$result1" = 'export hello=${hello:-world}' ]
-  [ "$result1" = 'export hello=${hello:-world}' ]
+  [ "$result2" = 'export hello=${hello:-world}' ]
 }
 
 @test "nowms somewhat accurate" {
