@@ -27,52 +27,51 @@ teardown() {
 @test "output of puts_step" {
   run puts_step hello
   [ "$status" -eq 0 ]
-  [[ "$output" == *"=== hello"* ]]
+  [[ "$output" == *"=== hello"* ]] || false
 }
 
 @test "piped input of puts_step" {
   output=$(echo 'hello' | puts_step -)
-  [[ "$output" == *"=== hello"* ]]
+  [[ "$output" == *"=== hello"* ]] || false
 }
-
 
 @test "output of puts_error" {
   run puts_error hello
   [ "$status" -eq 0 ]
-  [[ "$output" == *"=!= hello"* ]]
+  [[ "$output" == *"=!= hello"* ]] || false
 }
 
 @test "piped input of puts_error" {
   output=$(echo 'hello' | puts_error -)
-  [[ "$output" == *"=!= hello"* ]]
+  [[ "$output" == *"=!= hello"* ]] || false
 }
 
 @test "output of puts_warn" {
   run puts_warn hello
   [ "$status" -eq 0 ]
-  [[ "$output" == *"=!= hello"* ]]
+  [[ "$output" == *"=!= hello"* ]] || false
 }
 
 @test "piped input of puts_warn" {
   output=$(echo 'hello' | puts_warn -)
-  [[ "$output" == *"=!= hello"* ]]
+  [[ "$output" == *"=!= hello"* ]] || false
 }
 
 @test "output of puts_verbose" {
   run puts_verbose hello
   [ "$status" -eq 0 ]
-  [[ "$output" == "" ]]
+  [ "$output" == "" ]
 
   BUILDPACK_VERBOSE=true
 
   run puts_verbose hello
   [ "$status" -eq 0 ]
-  [[ "$output" == *"hello"* ]]
+  [[ "$output" == *"hello"* ]] || false
 }
 
 @test "piped input of puts_verbose" {
   output=$(echo 'hello' | puts_verbose -)
-  [[ "$output" == "" ]]
+  [ "$output" == "" ]
 
   BUILDPACK_VERBOSE=true
 
@@ -81,7 +80,6 @@ teardown() {
 }
 
 @test "results of set_env" {
-
   set_env hello world
 
   result1="$(cat $PROFILE_PATH)"
@@ -92,7 +90,6 @@ teardown() {
 }
 
 @test "results of set_env" {
-
   set_env hello world
 
   result1="$(cat $PROFILE_PATH)"
@@ -103,7 +100,6 @@ teardown() {
 }
 
 @test "results of un_set_env" {
-
   un_set_env hello
 
   result="$(cat $PROFILE_PATH)"
@@ -112,7 +108,6 @@ teardown() {
 }
 
 @test "results of set_default_env" {
-
   set_default_env hello world
 
   result1="$(cat $PROFILE_PATH)"
@@ -167,11 +162,10 @@ teardown() {
   [ "$result" = "unique#tests.something=42" ]
 }
 
-
 @test "mcount_exit functionality" {
   run mcount_exit "something"
 
- [ "$status" -eq 1 ]
+  [ "$status" -eq 1 ]
 }
 
 @test "export_env working properly" {
@@ -181,8 +175,7 @@ teardown() {
 }
 
 @test "sub_env working properly" {
-
   run sub_env env
 
-  [[ "$output" == *"HELLO=WORLD"* ]]
+  [[ "$output" == *"HELLO=WORLD"* ]] || false
 }
