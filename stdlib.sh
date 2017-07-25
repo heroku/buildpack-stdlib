@@ -140,7 +140,7 @@ nowms() {
 # Log arbitrary data to the logfile (e.g. a packaging file).
 # Usage: $ bplog "$(<${vendorJSON})
 bplog() {
-  echo -n ${@} | awk 'BEGIN {printf "msg=\""; f="%s"} {gsub(/"/, "\\\"", $0); printf f, $0} {if (NR == 1) f="\\n%s" } END { print "\"" }' >> "${BUILDPACK_LOG_FILE}"
+  echo -n "${@}" | awk 'BEGIN {printf "msg=\""; f="%s"} {gsub(/"/, "\\\"", $0); printf f, $0} {if (NR == 1) f="\\n%s" } END { print "\"" }' >> "${BUILDPACK_LOG_FILE}"
 }
 
 # Measures time elapsed for a specific build step.
