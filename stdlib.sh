@@ -1,40 +1,42 @@
+#!/usr/bin/env bash
+
 # Buildpack defaults
 # ---------------
 
-export BUILDPACK_LOG_FILE=${BUILDPACK_LOG_FILE:-/dev/null}
+export BUILDPACK_LOG_FILE="${BUILDPACK_LOG_FILE:-/dev/null}"
 
 # Standard Output
 # ---------------
 
 # Buildpack Steps.
 puts_step() {
-  if [[ "$@" == "-" ]]; then
-    read output
+  if [[ "$*" == "-" ]]; then
+    read -r output
   else
-    output=$@
+    output=$*
   fi
-  echo -e "\e[1m\e[36m=== $output\e[0m"
+  echo -e "\\e[1m\\e[36m=== $output\\e[0m"
   unset output
 }
 
 # Buildpack Error.
 puts_error() {
-  if [[ "$@" == "-" ]]; then
-    read output
+  if [[ "$*" == "-" ]]; then
+    read -r output
   else
-    output=$@
+    output=$*
   fi
-  echo -e "\e[1m\e[31m=!= $output\e[0m"
+  echo -e "\\e[1m\\e[31m=!= $output\\e[0m"
 }
 
 # Buildpack Warning.
 puts_warn() {
-  if [[ "$@" == "-" ]]; then
-    read output
+  if [[ "$*" == "-" ]]; then
+    read -r output
   else
-    output=$@
+    output=$*
   fi
-  echo -e "\e[1m\e[33m=!= $output\e[0m"
+  echo -e "\\e[1m\\e[33m=!= $output\\e[0m"
 }
 
 # Is verbose set?
@@ -49,12 +51,12 @@ is_verbose() {
 # Buildpack Verbose.
 puts_verbose() {
   if is_verbose; then
-    if [[ "$@" == "-" ]]; then
-      read output
+    if [[ "$*" == "-" ]]; then
+      read -r output
     else
-      output=$@
+      output=$*
     fi
-    echo $output
+    echo "$output"
     unset output
   fi
 }
@@ -66,21 +68,21 @@ puts_verbose() {
 # NOTICE: Expects PROFILE_PATH & EXPORT_PATH to be set!
 set_env() {
   # TODO: automatically create profile path directory if it doesn't exist.
-  echo "export $1=$2" >> $PROFILE_PATH
-  echo "export $1=$2" >> $EXPORT_PATH
+  echo "export $1=$2" >> "$PROFILE_PATH"
+  echo "export $1=$2" >> "$EXPORT_PATH"
 }
 
 # Usage: $ set-default-env key value
 # NOTICE: Expects PROFILE_PATH & EXPORT_PATH to be set!
 set_default_env() {
-  echo "export $1=\${$1:-$2}" >> $PROFILE_PATH
-  echo "export $1=\${$1:-$2}" >> $EXPORT_PATH
+  echo "export $1=\${$1:-$2}" >> "$PROFILE_PATH"
+  echo "export $1=\${$1:-$2}" >> "$EXPORT_PATH"
 }
 
 # Usage: $ un-set-env key
 # NOTICE: Expects PROFILE_PATH to be set!
 un_set_env() {
-  echo "unset $1" >> $PROFILE_PATH
+  echo "unset $1" >> "$PROFILE_PATH"
 }
 
 # Usage: $ _env-blacklist pattern
@@ -98,11 +100,14 @@ _env_blacklist() {
 export_env() {
   local env_dir=${1:-$ENV_DIR}
   local whitelist=${2:-''}
-  local blacklist="$(_env_blacklist $3)"
+  local blacklist
+  blacklist="$(_env_blacklist "$3")"
   if [ -d "$env_dir" ]; then
-    for e in $(ls $env_dir); do
+    # Environment variable names won't contain characters affected by:
+    # shellcheck disable=SC2045
+    for e in $(ls "$env_dir"); do
       echo "$e" | grep -E "$whitelist" | grep -qvE "$blacklist" &&
-      export "$e=$(cat $env_dir/$e)"
+      export "$e=$(cat "$env_dir/$e")"
       :
     done
   fi
@@ -116,7 +121,9 @@ export_env() {
 #    BLACKLIST=${3:-'^(GIT_DIR|PYTHONHOME|LD_LIBRARY_PATH|LIBRARY_PATH|PATH)$'}
 sub_env() {
   (
-    export_env $ENV_DIR $WHITELIST $BLACKLIST
+    # TODO: Fix https://github.com/heroku/buildpack-stdlib/issues/37
+    # shellcheck disable=SC2153
+    export_env "$ENV_DIR" "$WHITELIST" "$BLACKLIST"
 
     $1
   )
@@ -137,7 +144,7 @@ nowms() {
 # Log arbitrary data to the logfile (e.g. a packaging file).
 # Usage: $ bplog "$(<${vendorJSON})
 bplog() {
-  echo -n ${@} | awk 'BEGIN {printf "msg=\""; f="%s"} {gsub(/"/, "\\\"", $0); printf f, $0} {if (NR == 1) f="\\n%s" } END { print "\"" }' >> ${BUILDPACK_LOG_FILE}
+  echo -n "${@}" | awk 'BEGIN {printf "msg=\""; f="%s"} {gsub(/"/, "\\\"", $0); printf f, $0} {if (NR == 1) f="\\n%s" } END { print "\"" }' >> "${BUILDPACK_LOG_FILE}"
 }
 
 # Measures time elapsed for a specific build step.
@@ -147,7 +154,7 @@ mtime() {
   local key="${BPLOG_PREFIX}.${1}"
   local start="${2}"
   local end="${3:-$(nowms)}"
-  echo "${key} ${start} ${end}" | awk '{ printf "measure#%s=%.3f\n", $1, ($3 - $2)/1000 }' >> ${BUILDPACK_LOG_FILE}
+  echo "${key} ${start} ${end}" | awk '{ printf "measure#%s=%.3f\n", $1, ($3 - $2)/1000 }' >> "${BUILDPACK_LOG_FILE}"
 }
 
 # Logs a count for a specific built step.
@@ -156,7 +163,7 @@ mtime() {
 mcount() {
   local k="${BPLOG_PREFIX}.${1}"
   local v="${2:-1}"
-  echo "count#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
+  echo "count#${k}=${v}" >> "${BUILDPACK_LOG_FILE}"
 }
 
 # Logs a measure for a specific build step.
@@ -165,7 +172,7 @@ mcount() {
 mmeasure() {
   local k="${BPLOG_PREFIX}.${1}"
   local v="${2}"
-  echo "measure#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
+  echo "measure#${k}=${v}" >> "${BUILDPACK_LOG_FILE}"
 }
 
 # Logs a unuique measurement build step.
@@ -174,7 +181,7 @@ mmeasure() {
 munique() {
   local k="${BPLOG_PREFIX}.${1}"
   local v="${2}"
-  echo "unique#${k}=${v}" >> ${BUILDPACK_LOG_FILE}
+  echo "unique#${k}=${v}" >> "${BUILDPACK_LOG_FILE}"
 }
 
 # Measures when an exit path to the buildpack is reached, given a name, then exits 1.

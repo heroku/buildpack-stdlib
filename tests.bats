@@ -5,14 +5,17 @@ source stdlib.sh
 
 setup() {
   # The Basics.
-  export PROFILE_PATH=$(mktemp)
-  export EXPORT_PATH=$(mktemp)
-  export BUILDPACK_LOG_FILE=$(mktemp)
+  export PROFILE_PATH
+  PROFILE_PATH=$(mktemp)
+  export EXPORT_PATH
+  EXPORT_PATH=$(mktemp)
+  export BUILDPACK_LOG_FILE
+  BUILDPACK_LOG_FILE=$(mktemp)
   export BPLOG_PREFIX='tests'
 
   # User Environment Variables.
-  mkdir -p $BATS_TMPDIR/env/
-  echo "WORLD" > $BATS_TMPDIR/env/HELLO
+  mkdir -p "$BATS_TMPDIR/env/"
+  echo "WORLD" > "$BATS_TMPDIR/env/HELLO"
   export ENV_DIR="$BATS_TMPDIR/env/"
 }
 
@@ -82,8 +85,8 @@ teardown() {
 @test "results of set_env" {
   set_env hello world
 
-  result1="$(cat $PROFILE_PATH)"
-  result2="$(cat $EXPORT_PATH)"
+  result1="$(cat "$PROFILE_PATH")"
+  result2="$(cat "$EXPORT_PATH")"
 
   [ "$result1" = "export hello=world" ]
   [ "$result2" = "export hello=world" ]
@@ -92,8 +95,8 @@ teardown() {
 @test "results of set_env" {
   set_env hello world
 
-  result1="$(cat $PROFILE_PATH)"
-  result2="$(cat $EXPORT_PATH)"
+  result1="$(cat "$PROFILE_PATH")"
+  result2="$(cat "$EXPORT_PATH")"
 
   [ "$result1" = "export hello=world" ]
   [ "$result2" = "export hello=world" ]
@@ -102,7 +105,7 @@ teardown() {
 @test "results of un_set_env" {
   un_set_env hello
 
-  result="$(cat $PROFILE_PATH)"
+  result="$(cat "$PROFILE_PATH")"
 
   [ "$result" = "unset hello" ]
 }
@@ -110,8 +113,8 @@ teardown() {
 @test "results of set_default_env" {
   set_default_env hello world
 
-  result1="$(cat $PROFILE_PATH)"
-  result2="$(cat $EXPORT_PATH)"
+  result1="$(cat "$PROFILE_PATH")"
+  result2="$(cat "$EXPORT_PATH")"
 
   [ "$result1" = 'export hello=${hello:-world}' ]
   [ "$result2" = 'export hello=${hello:-world}' ]
@@ -126,14 +129,14 @@ teardown() {
 
 @test "bplog functionality" {
   bplog test
-  result=$(cat $BUILDPACK_LOG_FILE)
+  result=$(cat "$BUILDPACK_LOG_FILE")
 
   [ "$result" = 'msg="test"' ]
 }
 
 @test "mtime functionality" {
-  mtime "something" $(nowms)
-  result=$(cat $BUILDPACK_LOG_FILE | cut -c1-24)
+  mtime "something" "$(nowms)"
+  result=$(cut -c1-24 "$BUILDPACK_LOG_FILE")
 
   [ "$result" = "measure#tests.something=" ]
 }
@@ -141,7 +144,7 @@ teardown() {
 @test "mcount functionality" {
   mcount "something"
 
-  result=$(cat $BUILDPACK_LOG_FILE)
+  result=$(cat "$BUILDPACK_LOG_FILE")
 
   [ "$result" = "count#tests.something=1" ]
 }
@@ -149,7 +152,7 @@ teardown() {
 @test "mmeasure functionality" {
   mmeasure "something" 42
 
-  result=$(cat $BUILDPACK_LOG_FILE)
+  result=$(cat "$BUILDPACK_LOG_FILE")
 
   [ "$result" = "measure#tests.something=42" ]
 }
@@ -157,7 +160,7 @@ teardown() {
 @test "munique functionality" {
   munique "something" 42
 
-  result=$(cat $BUILDPACK_LOG_FILE)
+  result=$(cat "$BUILDPACK_LOG_FILE")
 
   [ "$result" = "unique#tests.something=42" ]
 }

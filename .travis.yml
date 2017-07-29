@@ -1,5 +1,13 @@
 dist: trusty
 sudo: false
 language: bash
+env:
+  # Whilst this directory is already on PATH, it's after /usr/bin/local.
+  # This prevents the older shellcheck in /usr/bin/local being used instead.
+  - PATH="$HOME/bin:$PATH"
+install:
+  - curl -sSfL "https://storage.googleapis.com/shellcheck/shellcheck-v0.4.6.linux.x86_64.tar.xz" | tar -xJ --strip-components=1 -C "$HOME/bin"
+  - shellcheck --version
 script:
-  - bats tests.bats
+  - shellcheck *.sh
+  - bats .
