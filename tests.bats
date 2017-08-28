@@ -182,3 +182,9 @@ teardown() {
 
   [[ "$output" == *"HELLO=WORLD"* ]] || false
 }
+
+@test "quoting of sub_env working properly" {
+  run sub_env echo 'hello world'
+
+  [[ "$output" == 'hello world' ]] || false
+}
