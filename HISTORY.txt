@@ -1,3 +1,5 @@
+# v8
+ - Fix quoting bug in sub_env. 
 # v7
  - Automatically set BUILDPACK_LOG_FILE default.
 # v6
