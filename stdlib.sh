@@ -125,7 +125,7 @@ sub_env() {
     # shellcheck disable=SC2153
     export_env "$ENV_DIR" "$WHITELIST" "$BLACKLIST"
 
-    $1
+    "$@"
   )
 }
 
