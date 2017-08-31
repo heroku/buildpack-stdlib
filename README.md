@@ -27,9 +27,9 @@ Or, if you are going to run the code multiple times in your source (e.g. in a `u
 
 ```bash
 if [[ ! -f  /tmp/stdlib.sh ]]; then
-  curl --retry 3 -s https://lang-common.s3.amazonaws.com/buildpack-stdlib/v4/stdlib.sh > /tmp/stdlib.sh
+  curl --retry 3 -s https://lang-common.s3.amazonaws.com/buildpack-stdlib/v8/stdlib.sh > /tmp/stdlib-v8.sh
 fi
-source /tmp/stdlib.sh
+source /tmp/stdlib-v8.sh
 ```
 
 We recommend pinning to a specific release, for stability reasons.
