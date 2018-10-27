@@ -65,9 +65,6 @@ We recommend pinning to a specific release, for stability reasons.
 
 *Please see the contents of [stdlib.sh](https://github.com/heroku/buildpack-stdlib/blob/master/stdlib.sh) for more usage details (including required environment variables).*
 
-✨🍰✨
-
-
 --------------------------
 
 ## Deploying to Amazon S3
