@@ -20,7 +20,7 @@ source /dev/stdin <<< "$(curl -s --retry 3 https://lang-common.s3.amazonaws.com/
 Or, if you want to pin to a specific release:
 
 ```bash
-source /dev/stdin <<< "$(curl -s --retry 3 https://lang-common.s3.amazonaws.com/buildpack-stdlib/v4/stdlib.sh)"
+source /dev/stdin <<< "$(curl -s --retry 3 https://lang-common.s3.amazonaws.com/buildpack-stdlib/v8/stdlib.sh)"
 ```
 
 Or, if you are going to run the code multiple times in your source (e.g. in a `utils` file that gets sourced multiple times):
