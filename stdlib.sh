@@ -5,6 +5,12 @@
 
 export BUILDPACK_LOG_FILE="${BUILDPACK_LOG_FILE:-/dev/null}"
 
+# throw an error with an error message
+error_exit() {
+    echo "${1:-"Unknown Error"}" 1>&2
+    exit 1
+}
+
 # Standard Output
 # ---------------
 
@@ -96,14 +102,30 @@ kv_clear() {
   echo "" > "$f"
 }
 
+kv_validate_key() {
+	[[ "$1" =~ ^[a-zA-Z_][a-zA-Z0-9_]*$  ]]
+}
+
 # Set value for a key
 # Usage: kv_set file key value
 kv_set() {
-  if [[ $# -eq 3 ]]; then
-    local f=$1
-    if [[ -f $f ]]; then
-      echo "$2=$3" >> "$f"
-    fi
+  local f value
+
+  if (( $# != 3 )); then
+    error_exit "Expected 3 arguments to kv_set, received $#"
+  fi
+
+  kv_validate_key "$2" || error_exit "invalid param to kv_set '$2'"
+
+  f=$1
+  # before we save the string:
+  # - change any newlines into spaces
+  # - trim off any spaces from the start or end of the string
+  #   otherwise if you set a value without quotes: kv_set "$store" foo bar
+  #   it will be saved with a '\n' and you will get "bar " in return
+  value="$(echo "$3" | tr '\n' ' ' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+  if [[ -w $f ]]; then
+    echo "$2=$value" >> "$f"
   fi
 }
 
@@ -111,11 +133,13 @@ kv_set() {
 # not present
 # Usage: kv_get file key
 kv_get() {
-  if [[ $# -eq 2 ]]; then
-    local f=$1
-    if [[ -f $f ]]; then
-      grep "^$2=" "$f" | sed -e "s/^$2=//" | tail -n 1
-    fi
+  if (( $# != 2 )); then
+    error_exit "Expected 2 arguments to kv_get, received $#"
+  fi
+
+  local f=$1
+  if [[ -r $f ]]; then
+    grep "^$2=" "$f" | sed -e "s/^$2=//" | tail -n 1
   fi
 }
 
@@ -124,7 +148,8 @@ kv_get() {
 # Usage: kv_get_escaped file key
 kv_get_escaped() {
   local value
-  value=$(kv_get "$1" "$2")
+  # retrieve the value and escape any quotes with backslashes
+  value=$(kv_get "$1" "$2" |  sed 's/"/\\"/g')
   if [[ $value =~ [[:space:]]+ ]]; then
     echo "\"$value\""
   else
