@@ -1,5 +1,7 @@
-all: check test
+all: check test unit
 check:
-	shellcheck stdlib.sh
+	shellcheck stdlib.sh test/unit
 test:
 	bats tests.bats
+unit:
+	bash test/unit

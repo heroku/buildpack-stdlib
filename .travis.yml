@@ -11,3 +11,4 @@ install:
 script:
   - shellcheck *.sh
   - bats .
+  - bash test/unit

@@ -1,0 +1,181 @@
+#!/usr/bin/env bash
+
+testKeyValue() {
+  local store
+
+  store=$(mktemp)
+
+  kv_create "$store"
+
+  kv_set "$store" key value
+  kv_set "$store" foo bar
+  kv_set "$store" key other_value
+  kv_set "$store" bar baz
+
+  assertEquals "other_value" "$(kv_get "$store" key)"
+  assertEquals "bar" "$(kv_get "$store" foo)"
+  assertEquals "baz" "$(kv_get "$store" bar)"
+
+  # if the key isn't there it should return an empty string
+  assertEquals "" "$(kv_get "$store" not_there)"
+
+  # kv_keys returns each key on a new line
+  assertEquals "$(printf "%s\n" bar foo key)" "$(kv_keys "$store")"
+
+  # kv_list returns key=value on individual lines
+  assertEquals "$(printf "%s\n" bar=baz foo=bar key=other_value)" "$(kv_list "$store")"
+
+  # calling create on an existing store doesn't erase it
+  kv_create "$store"
+  assertEquals "$(printf "%s\n" bar=baz foo=bar key=other_value)" "$(kv_list "$store")"
+
+  # now clear the store
+  kv_clear "$store"
+
+  assertEquals "" "$(kv_get "$store" key)"
+  assertEquals "" "$(kv_keys "$store")"
+  assertEquals "" "$(kv_list "$store")"
+}
+
+testKeyValueNoNewLine() {
+  local store
+
+  # use a fixture that does not have an empty line after the final entry
+  store="$(pwd)/test/unit-fixtures/kvstore/no-new-line"
+
+  assertEquals "$(printf "%s\n" a=b b=c)" "$(kv_list "$store")"
+  assertEquals "$(printf "%s\n" a b)" "$(kv_keys "$store")" 
+}
+
+testKeyValueEmptyLine() {
+  local store
+
+  # use a fixture that has an extra empty line
+  store="$(pwd)/test/unit-fixtures/kvstore/empty-line"
+
+  assertEquals "$(printf "%s\n" a=b b=c)" "$(kv_list "$store")"
+  assertEquals "$(printf "%s\n" a b)" "$(kv_keys "$store")" 
+}
+
+testKeyValueEscaping() {
+  local store
+  store=$(mktemp)
+
+  kv_create "$store"
+
+  kv_set "$store" "key" "value with a space"
+  assertEquals "key=\"value with a space\"" "$(kv_list "$store")"
+  assertEquals "value with a space" "$(kv_get "$store" "key")"
+}
+
+# if the file doesn't exist, everything should be a no-op
+testKeyValueNoFile() {
+  local store="/tmp/does-not-exist"
+
+  kv_set "$store" key value
+
+  assertEquals "" "$(kv_get "$store" key)"
+  assertEquals "" "$(kv_keys "$store")"
+  assertEquals "" "$(kv_list "$store")"
+
+  # running these commands has not created this file
+  assertTrue "[[ ! -e $store ]]"
+}
+
+testKeyValueMultiLineString() {
+  local store value
+
+  store=$(mktemp)
+
+  kv_create "$store"
+
+  # create a multi-line string
+  read -r -d '' value << EOM
+This is line 1.
+This is line 2.
+Line 3.
+EOM
+
+  kv_set "$store" key "$value"
+
+  # the value will be flattened into one line
+  assertEquals "$(kv_get "$store" key)" "This is line 1. This is line 2. Line 3."
+}
+
+testKeyValueStringWithQuotes() {
+  local store value build script
+
+  store=$(mktemp)
+
+  kv_create "$store"
+
+  value="echo \"foo\" bar"
+  build="node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'vendor/assets/bower_components', 'junction') } catch (e) { }\""
+  script="if test \"\$NODE_ENV\" = \"production\"; then webpack --config webpack/webpack.config.prod.js; fi"
+
+  kv_set "$store" key "$value"
+  kv_set "$store" build "$build"
+  kv_set "$store" script "$script"
+
+  assertEquals "$(kv_get "$store" key)" "$value"
+  assertEquals "$(kv_get_escaped "$store" key)" "\"echo \\\"foo\\\" bar\""
+
+  assertEquals "$(kv_get "$store" build)" "$build"
+  assertEquals "$(kv_get_escaped "$store" build)" "\"node -e \\\"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'vendor/assets/bower_components', 'junction') } catch (e) { }\\\"\""
+
+  assertEquals "$(kv_get "$store" script)" "$script"
+  assertEquals "$(kv_get_escaped "$store" script)" "\"if test \\\"\$NODE_ENV\\\" = \\\"production\\\"; then webpack --config webpack/webpack.config.prod.js; fi\""
+}
+
+# Keys must match [a-zA-Z_][a-zA-Z0-9_]+
+testKeyNameEnforcement() {
+  local store value out
+
+  store=$(mktemp)
+
+  kv_create "$store"
+
+  out=$(kv_set "$store" "@foo" "value" 2>&1)
+  # assert that the exit code was 0
+  assertEquals "1" "$?"
+  # assert the error message
+  assertEquals "invalid param to kv_set '@foo'" "$out"
+
+  out=$(kv_set "$store" "123" "value" 2>&1)
+  # assert that the exit code was 0
+  assertEquals "1" "$?"
+  # assert the error message
+  assertEquals "invalid param to kv_set '123'" "$out"
+}
+
+testKeyValueErrors() {
+  local store value out
+
+  store=$(mktemp)
+
+  kv_create "$store"
+
+  # an empty value string shouldn't fail
+  out=$(kv_set "$store" "key" "" 2>&1)
+  assertEquals "0" "$?"
+
+  out=$(kv_set "$store" "key-with-no-value" 2>&1)
+  assertEquals "1" "$?"
+  assertEquals "Expected 3 arguments to kv_set, received 2" "$out"
+
+  out=$(kv_set "$store" 2>&1)
+  assertEquals "1" "$?"
+  assertEquals "Expected 3 arguments to kv_set, received 1" "$out"
+
+  out=$(kv_get "$store" 2>&1)
+  assertEquals "1" "$?"
+  assertEquals "Expected 2 arguments to kv_get, received 1" "$out"
+}
+
+# the module to be tested
+# shellcheck source=stdlib.sh
+source "$(pwd)"/stdlib.sh
+
+# import the testing framework
+# shellcheck disable=SC1090
+source "$(pwd)"/test/shunit2
