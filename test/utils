@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+
+# taken from
+# https://github.com/ryanbrainard/heroku-buildpack-testrunner/blob/master/lib/test_utils.sh
+
+_assertContains()
+{
+  if [ 5 -eq $# ]; then
+    local msg=$1
+    shift
+  elif [ ! 4 -eq $# ]; then
+    fail "Expected 4 or 5 parameters; Receieved $# parameters"
+  fi
+
+  local needle=$1
+  local haystack=$2
+  local expectation=$3
+  local haystack_type=$4
+
+  case "${haystack_type}" in
+    "file") grep -q -F -e "${needle}" "${haystack}" ;;
+    "text") echo "${haystack}" | grep -q -F -e "${needle}" ;;
+  esac
+
+  if [ "${expectation}" != "$?" ]; then
+    case "${expectation}" in
+      0) default_msg="Expected <${haystack}> to contain <${needle}>" ;;
+      1) default_msg="Did not expect <${haystack}> to contain <${needle}>" ;;
+    esac
+
+    fail "${msg:-${default_msg}}"
+  fi
+}
+
+assertContains()
+{
+  _assertContains "$@" 0 "text"
+}
+
+assertNotContains()
+{
+  _assertContains "$@" 1 "text"
+}
+
+assertFileContains()
+{
+  _assertContains "$@" 0 "file"
+}
+
+assertFileNotContains()
+{
+  _assertContains "$@" 1 "file"
+}
+
+command_exists () {
+    type "$1" > /dev/null 2>&1 ;
+}
+
+assertFileMD5()
+{
+  expectedHash=$1
+  filename=$2
+
+  if command_exists "md5sum"; then
+    md5_cmd="md5sum ${filename}"
+    expected_md5_cmd_output="${expectedHash}  ${filename}"
+  elif command_exists "md5"; then
+    md5_cmd="md5 ${filename}"
+    expected_md5_cmd_output="MD5 (${filename}) = ${expectedHash}"
+  else
+    fail "no suitable MD5 hashing command found on this system"
+  fi
+
+  assertEquals "${expected_md5_cmd_output}" "$(${md5_cmd})"
+}
+
+assertDirectoryExists() {
+  if [[ ! -e "$1" ]]; then
+    fail "$1 does not exist"
+  fi
+  if [[ ! -d $1 ]]; then
+    fail "$1 is not a directory"
+  fi
+}
+
+assertFileExists()
+{
+  filename=$1
+  assertTrue "$filename doesn't exist" "[[ -e $filename ]]"
+}
+
+assertFileDoesNotExist()
+{
+  filename=$1
+  assertTrue "$filename exists" "[[ ! -e $filename ]]"
+}
