@@ -193,6 +193,108 @@ kv_list() {
   done
 }
 
+# Metadata Store Utility
+# -------------------
+
+# This builds on top of the Key Value Store Utility to create a data store
+# at a particular location in the cache directory to enable a buildpack to
+# build up and store a set of metadata during a build. This also keeps the
+# metadata from the previous successful build and makes it available.
+#
+# This is useful to e.g. provide better error messages when a user has
+# a new failure because of a new major version of a runtime or package
+# manager.
+#
+# It is also useful for storing information about the build to output
+# during bin/report
+#
+# Ex:
+#   meta_set "node-package-manager" "yarn"
+#   meta_set "has-node-lock-file" "true"
+#   meta_set "failure" "build-out-of-memory-error"
+#   meta_set ""
+
+# variables shared by this whole module
+BUILD_DATA_FILE=""
+PREVIOUS_BUILD_DATA_FILE=""
+
+# Must be called before you can use any other meta_* methods
+# Usage: meta_init "$CACHE_DIR" "ruby"
+meta_init() {
+  local cache_dir="$1"
+  local buildpack_name="$2"
+  BUILD_DATA_FILE="$cache_dir/build-data/$buildpack_name"
+  PREVIOUS_BUILD_DATA_FILE="$cache_dir/build-data/$buildpack_name-prev"
+}
+
+# Moves the data from the last build into the correct place, and clears the store
+# This should be called after meta_init in bin/compile. It takes no arguments
+#
+# This shuffling was moved outside of `meta_init` to faciliate re-initializing the
+# stores in bin/report without modifying them
+# Usage: meta_setup
+meta_setup() {
+  # if the file already exists because it's from the last build, save it
+  if [[ -f "$BUILD_DATA_FILE" ]]; then
+    cp "$BUILD_DATA_FILE" "$PREVIOUS_BUILD_DATA_FILE"
+  fi
+
+  kv_create "$BUILD_DATA_FILE"
+  kv_clear "$BUILD_DATA_FILE"
+}
+
+# Force removal of exiting data file state. This is mostly useful during testing and not
+# expected to be used during buildpack execution.
+# Usage: meta_force_clear
+meta_force_clear() {
+  [[ -f "$BUILD_DATA_FILE" ]] && rm "$BUILD_DATA_FILE"
+  [[ -f "$PREVIOUS_BUILD_DATA_FILE" ]] && rm "$PREVIOUS_BUILD_DATA_FILE"
+}
+
+# Retrieve value for a key. Will return an empty string if the key is
+# not present
+# Usage: meta_get "has-lock-file"
+meta_get() {
+  kv_get "$BUILD_DATA_FILE" "$1"
+}
+
+# Set value for a key
+# Usage: meta_set "has-lock-file" "true"
+meta_set() {
+  kv_set "$BUILD_DATA_FILE" "$1" "$2"
+}
+
+# Measures time elapsed and saves it with a given key
+# Usage: $ let start=$(nowms); do-a-thing; meta_time "thing.time" "${start}"
+meta_time() {
+  local key="$1"
+  local start="$2"
+  local end="${3:-$(nowms)}"
+  local time
+  time="$(echo "${start}" "${end}" | awk '{ printf "%.3f", ($2 - $1)/1000 }')"
+  kv_set "$BUILD_DATA_FILE" "$key" "$time"
+}
+
+# Retrieve a value from a previous build if it exists
+# This is useful to give the user context about what changed if the
+# build has failed. Ex:
+#   - changed stacks
+#   - deployed with a new major version of a runtime binary
+#   - etc
+# Usage: meta_prev_get "ruby-version"
+meta_prev_get() {
+  kv_get "$PREVIOUS_BUILD_DATA_FILE" "$1"
+}
+
+# Print all current values in logfmt format
+# https://brandur.org/logfmt
+# Usage: log_meta_data
+log_meta_data() {
+  # the echo call ensures that all values are printed on a single line
+  # shellcheck disable=SC2005 disable=SC2046
+  echo $(kv_list "$BUILD_DATA_FILE")
+}
+
 # Buildpack Utilities
 # -------------------
 
